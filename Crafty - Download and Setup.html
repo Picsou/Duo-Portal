@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>	
+	<script type="text/javascript" src="http://cdn.craftycomponents.com/crafty-release.js"></script>
+	<title>My Crafty Game</title>
+	<style>
+    body, html { margin:0; padding: 0; overflow:hidden; font-family:Arial; font-size:20px }
+    #cr-stage { border:2px solid black; margin:5px auto; color:white }
+    </style>
+</head>
+<body>
+	<script type="text/javascript">
+		Crafty.init(400, 400);
+		//Crafty.e("2D, DOM, Twoway").twoway(3);
+//Crafty.c("RandomPosition", {
+	//init: function() {
+	//	this.attr({ x: Crafty.math.randomInt(50,350), y: Crafty.math.randomInt(50,350) });
+	//}
+//});
+
+//var myEnt = Crafty.e("2D, DOM, Twoway, RandomPosition, Color").twoway(3).color("red").attr({w: 50, h: 50});
+//})
+	Crafty.scene("loading", function () {
+    //load takes an array of assets and a callback when complete
+    Crafty.load(["sprite.png"], function () {
+        Crafty.scene("main"); //when everything is loaded, run the main scene
+    });
+
+    //black background with some loading text
+    Crafty.background("#000");
+    Crafty.e("2D, DOM, Text").attr({ w: 100, h: 20, x: 150, y: 120 })
+            .text("Loading")
+            .css({ "text-align": "center" });
+});
+
+//automatically play the loading scene
+Crafty.scene("loading");
+	</script>
+</body>
+</html>
