@@ -1,0 +1,5 @@
+_ Graphics for portal
+_ Spritesheet for players
+_ portal projection on solid areas
+_ loading screen
+_ Proceed to next level / door out
