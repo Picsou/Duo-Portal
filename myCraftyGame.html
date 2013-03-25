@@ -125,16 +125,17 @@
 
             // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
             Crafty.c("PortalCollision", {
-                _collidingPoint: new Crafty.polygon([0, 0]),
+                _collidingPoint: new Crafty.polygon([407, 355]),
                 _collisionStep: 5,
 
                 detectCollision: function (coordinates) {
-                    this._collidingPoint = new Crafty.polygon([this._x, this._y], [this._x + 30, this._y], [this._x + 30, this._y + 70], [this._x, this._y + 70]);
+                    //this._collidingPoint = new Crafty.polygon([this._x, this._y], [this._x + 30, this._y], [this._x + 30, this._y + 70], [this._x, this._y + 70]);
+                    
                     this.requires("Collision").collision(this._collidingPoint);
                     var dx = coordinates.x - this._x;
                     var dy = coordinates.y - this._y;
                     var alpha = dy / dx;
-                    alert(this._x + ":" + this._y);
+                    //alert(this._x + ":" + this._y);
                     alert(this.hit('solid'));
                     var i = 0;
                     var xtemp = this._x;
@@ -147,6 +148,33 @@
                         ytemp += this._collisionStep * alpha;
                         i = i + 1;
                         alert(this.hit('solid') + "      ->       " + i + " : " + xtemp + ":" + ytemp);
+                    }
+                    return 1;
+                }
+
+
+            });
+            
+            Crafty.c("ParticleCollision", {
+                _collidingPoint: new Crafty.polygon([407, 355]),
+                _collisionStep: 5,
+
+                detectCollision: function (playerPosition, mouseCoordinates) {
+                    //this._collidingPoint = new Crafty.polygon([this._x, this._y], [this._x + 30, this._y], [this._x + 30, this._y + 70], [this._x, this._y + 70]);
+                    
+                    this.requires("Collision");
+                    var dx = mouseCoordinates.x - playerPosition.x;
+                    var dy = mouseCoordinates.y - playerPosition.y;
+                    var alpha = dy / dx;
+                    //alert(this._x + ":" + this._y);
+                    alert(this.hit('solid'));
+                    var i = 0;
+                    var xtemp = this._x;
+                    var ytemp = this._y;
+                    while (this.hit('solid') == false && i < 100) {
+						this.attr({ x: this._x + this._collisionStep, y: this._y +  this._collisionStep * alpha});
+                        i = i + 1;
+                        alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
                     }
                     return 1;
                 }
@@ -231,16 +259,19 @@
 								.attr({ x: 500, y: 430 });
 
             var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
-								.attr({ x: 200, y: 200, z: 1 }); ;
+								.attr({ x: 600, y: 200, z: 1 });
+								
+			var collisionParticle = Crafty.e("2D, ParticleCollision")
+								.attr({ x: 0, y: 0 });
 
             var mouse = Crafty.e("2D, Mouse").attr({ w: width, h: height });
             mouse.bind('Click', function (e) {
                 var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
                 bluePortal.attr({ x: coordinates.x, y: coordinates.y });
                 alert("begin");
-                var newPortalPosition = player1.detectCollision(coordinates);
+                var newPortalPosition = collisionParticle.detectCollision(1, coordinates);
                 alert("hello");
-                //alert(coordinates.x + ";" + coordinates.y);
+                alert(coordinates.x + ";" + coordinates.y);
             });
 
         }); // Closing levelOne scene
