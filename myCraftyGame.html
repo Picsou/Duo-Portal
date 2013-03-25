@@ -25,7 +25,7 @@
 
         // Global variables
         var width = 800;
-        var height = 500;
+        var height = 450;
         charSpeed = 8;
         gravity = 0.3;
 
@@ -124,59 +124,27 @@
             Crafty.c("Portal", {});
 
             // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
-            Crafty.c("PortalCollision", {
-                _collidingPoint: new Crafty.polygon([407, 355]),
-                _collisionStep: 5,
-
-                detectCollision: function (coordinates) {
-                    //this._collidingPoint = new Crafty.polygon([this._x, this._y], [this._x + 30, this._y], [this._x + 30, this._y + 70], [this._x, this._y + 70]);
-                    
-                    this.requires("Collision").collision(this._collidingPoint);
-                    var dx = coordinates.x - this._x;
-                    var dy = coordinates.y - this._y;
-                    var alpha = dy / dx;
-                    //alert(this._x + ":" + this._y);
-                    alert(this.hit('solid'));
-                    var i = 0;
-                    var xtemp = this._x;
-                    var ytemp = this._y;
-                    while (this.hit('solid') == false && i < 100) {
-                        this.collision(new Crafty.polygon([this._x + this._collisionStep, this._y + this._collisionStep * alpha], [this._x + this._collisionStep + 30, this._y + this._collisionStep * alpha], [this._x + this._collisionStep + 30, this._y + 70 + this._collisionStep * alpha], [this._x + this._collisionStep, this._y + 70 + this._collisionStep * alpha]));
-
-                        //this._collidingPoint.shift(this._collisionStep, this._collisionStep * alpha);
-                        xtemp += this._collisionStep;
-                        ytemp += this._collisionStep * alpha;
-                        i = i + 1;
-                        alert(this.hit('solid') + "      ->       " + i + " : " + xtemp + ":" + ytemp);
-                    }
-                    return 1;
-                }
-
-
-            });
-            
             Crafty.c("ParticleCollision", {
-                _collidingPoint: new Crafty.polygon([407, 355]),
                 _collisionStep: 5,
 
                 detectCollision: function (playerPosition, mouseCoordinates) {
-                    //this._collidingPoint = new Crafty.polygon([this._x, this._y], [this._x + 30, this._y], [this._x + 30, this._y + 70], [this._x, this._y + 70]);
-                    
+                    this.attr({ x: playerPosition.x, y: playerPosition.y, w: 15, h: 15 });
                     this.requires("Collision");
                     var dx = mouseCoordinates.x - playerPosition.x;
                     var dy = mouseCoordinates.y - playerPosition.y;
                     var alpha = dy / dx;
-                    //alert(this._x + ":" + this._y);
-                    alert(this.hit('solid'));
                     var i = 0;
-                    var xtemp = this._x;
-                    var ytemp = this._y;
-                    while (this.hit('solid') == false && i < 100) {
-						this.attr({ x: this._x + this._collisionStep, y: this._y +  this._collisionStep * alpha});
+                    while (this.hit('solid') == false && i < 1000) {
+			if (dx > 0) {
+			    this.attr({ x: this._x + this._collisionStep, y: this._y +  this._collisionStep * alpha});
+			} else {
+			    this.attr({ x: this._x - this._collisionStep, y: this._y -  this._collisionStep * alpha});
+			}
                         i = i + 1;
-                        alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
+                        //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
                     }
-                    return 1;
+
+                    return this.attr();
                 }
 
 
@@ -220,6 +188,10 @@
                 exitDoor: [0, 0, 48, 48]
             });
 
+	    Crafty.sprite("./images/cleantest.png", {
+                man: [0, 0, 46, 62]
+            });
+
             /* Entities declarations */
 
             var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid")
@@ -231,7 +203,7 @@
             //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
             //       				.attr({ x: width / 3, y: height - 200, z: 1 });
 
-            var floor = Crafty.e("2D, DOM, floor")
+            var floor = Crafty.e("2D, DOM, floor, solid")
         			.attr({ x: 0, y: height, w: width, h: 0 });
             var ceiling = Crafty.e("2D, DOM, solid")
         			.attr({ x: 0, y: 0, w: width, h: 0 });
@@ -244,8 +216,8 @@
             //    .attr({ x: 100, y: 100, z: 1 })
             //    .multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
 
-            var player1 = Crafty.e("2D, DOM, Ape, Multiway, right, Gravity, Teleport, LevelUp, PortalCollision")
-            .attr({ x: 80, y: 80, z: 1 })
+            var player1 = Crafty.e("2D, DOM, Ape, Multiway, man, Gravity, Teleport, LevelUp")
+            .attr({ x: 200, y: 80, z: 1 })
             .Ape()
             .multiway(charSpeed, { SPACE: -90, RIGHT_ARROW: 0, LEFT_ARROW: 180 })
 	    	.gravity("floor")
@@ -267,11 +239,9 @@
             var mouse = Crafty.e("2D, Mouse").attr({ w: width, h: height });
             mouse.bind('Click', function (e) {
                 var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
-                bluePortal.attr({ x: coordinates.x, y: coordinates.y });
-                alert("begin");
-                var newPortalPosition = collisionParticle.detectCollision(1, coordinates);
-                alert("hello");
-                alert(coordinates.x + ";" + coordinates.y);
+                var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates);
+		bluePortal.attr({ x: newPortalPosition.x, y: newPortalPosition.y });
+                //alert(coordinates.x + ";" + coordinates.y);
             });
 
         }); // Closing levelOne scene

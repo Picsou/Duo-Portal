@@ -1,5 +1,6 @@
 _ Graphics for portal
 _ Spritesheet for players
-_ portal projection on solid areas
-_ loading screen
-_ Proceed to next level / door out
+_ size of the collision particule : probably size of portal
+_ background image
+_ wall selection
+_ simulate walking
