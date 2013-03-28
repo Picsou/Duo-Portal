@@ -102,12 +102,19 @@
                 }).bind('Change', function () {
 					var id = 0;
 
-					update_info(id, this._x, this._y);
+					if(typeof old !== "undefined"){
+						if(old._x){
+							update_info(id, this._x, this._y);
 
-					player2.attr({
-						x: x_player2, 
-						y: y_player2
-					});				
+							player2.attr({
+								x: x_player2, 
+								y: y_player2
+							});		
+						}
+					}
+
+					//if(old.x != this._x)
+					//	console.log(old, this._x, this._y); 
                 });
                     return this;
                 }
