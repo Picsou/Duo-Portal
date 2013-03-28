@@ -1,4 +1,4 @@
-;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
+;(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0](function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
 var domready = require('domready');
 var shoe = require('shoe');
 var dnode = require('dnode');
@@ -47,7 +47,7 @@ domready(function(){
 });
 
 
-},{"domready":2,"dnode":3,"shoe":4}],2:[function(require,module,exports){
+},{"domready":2,"shoe":3,"dnode":4}],2:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2012 - License MIT
   */
@@ -816,7 +816,7 @@ exports.format = function(f) {
   return str;
 };
 
-},{"events":6}],4:[function(require,module,exports){
+},{"events":6}],3:[function(require,module,exports){
 var Stream = require('stream');
 var sockjs = require('sockjs-client');
 
@@ -3213,7 +3213,7 @@ if (typeof module === 'object' && module && module.exports) {
 
 
 })()
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var dnode = require('./lib/dnode');
 
 module.exports = function (cons, opts) {
@@ -3503,11 +3503,11 @@ Proto.prototype.apply = function (f, args) {
     catch (err) { this.emit('error', err) }
 };
 
-},{"events":6,"./lib/keys":13,"./lib/scrub":14,"./lib/foreach":15,"./lib/is_enum":16}],12:[function(require,module,exports){
+},{"events":6,"./lib/scrub":13,"./lib/keys":14,"./lib/foreach":15,"./lib/is_enum":16}],12:[function(require,module,exports){
 exports.parse = require('./lib/parse');
 exports.stringify = require('./lib/stringify');
 
-},{"./lib/parse":17,"./lib/stringify":18}],13:[function(require,module,exports){
+},{"./lib/parse":17,"./lib/stringify":18}],14:[function(require,module,exports){
 module.exports = Object.keys || function (obj) {
     var keys = [];
     for (var key in obj) keys.push(key);
@@ -3967,7 +3967,7 @@ module.exports = function (obj, key) {
     return false;
 };
 
-},{"./keys":13}],14:[function(require,module,exports){
+},{"./keys":14}],13:[function(require,module,exports){
 var traverse = require('traverse');
 var objectKeys = require('./keys');
 var forEach = require('./foreach');
@@ -4041,7 +4041,7 @@ Scrubber.prototype.unscrub = function (msg, f) {
     return args;
 };
 
-},{"./keys":13,"./foreach":15,"traverse":19}],19:[function(require,module,exports){
+},{"./keys":14,"./foreach":15,"traverse":19}],19:[function(require,module,exports){
 var traverse = module.exports = function (obj) {
     return new Traverse(obj);
 };
