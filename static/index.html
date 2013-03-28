@@ -1,0 +1,269 @@
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="/static.js"></script>
+    <!--script type="text/javascript" src="http://cdn.craftycomponents.com/crafty-release.js"></script-->
+    <script type="text/javascript" src="./crafty.js"></script>
+    <title>Collaborative 2D Portal Game</title>
+    <style>
+        body, html
+        {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: Arial;
+            font-size: 20px;
+        }
+        #cr-stage
+        {
+            border: 2px solid black;
+            margin: 5px auto;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+
+		var player2;
+        // Global variables
+        var width = 1024;
+        var height = 768;
+        charSpeed = 8;
+        gravity = 0.3;
+
+        var window = Crafty.init(width, height);
+
+        Crafty.scene("loading", function () {
+            //load takes an array of assets and a callback when complete
+            Crafty.load(["./images/background.png", "./musics/portal_main_theme.mp3"], function () {
+                Crafty.scene("LevelOne");
+            });
+
+            Crafty.background("#070");
+            Crafty.e("2D, DOM, Text").attr({ w: 100, h: 20, x: 150, y: 120 })
+            		.text("Loading")
+            		.css({ "text-align": "center" });
+        });
+
+
+        Crafty.scene("LevelOne", function () {
+            Crafty.load(["./images/background.png"], function () {
+                // You can add level two here
+            });
+
+            // Adding a nice background image
+            Crafty.e("2D, DOM, Image").image("./images/background.png");
+
+            // Background music
+            Crafty.audio.add("backgroundMusic", ["./musics/portal_main_theme.mp3", "./musics/portal_main_theme.ogg", "./musics/portal_main_theme.wav"]	);
+            Crafty.audio.play("backgroundMusic", 1);
+
+            /* Components declaration */
+
+            Crafty.c('Ape', {
+                Ape: function () {
+                    //setup animations
+                    this.requires("SpriteAnimation, Collision")
+                .animate("walk_left", 560, 0, 560)
+                .animate("walk_right", [[222,76]])
+                .animate("jump", 0, 0, 0)
+		.animate("still", 218, 1, 218)
+                    //change direction when a direction change event is received
+                .bind("NewDirection",
+                    function (direction) {
+                        if (direction.x < 0) {
+                            if (!this.isPlaying("walk_left"))
+                                this.stop().animate("walk_left", 10, -1);
+                        }
+                        if (direction.x > 0) {
+                            if (!this.isPlaying("walk_right"))
+				this.attr({ w: 45, h: 74});
+                                this.stop().animate("walk_right", 10, -1);
+                        }
+                        if (direction.y < 0) {
+                            if (!this.isPlaying("jump"))
+                                this.stop().animate("jump", 10, -1);
+                        }
+                        if (direction.y >= 0) {
+                            if (this.isPlaying("jump"))
+                                this.stop().animate("walk_right", 10, -1);
+                        }
+                        if (!direction.x && !direction.y) {
+			    this.attr({ w: 32, h: 74});
+                            this.stop().animate("still", 1, -1);
+                        }
+                    })
+                    // A rudimentary way to prevent the user from passing solid areas
+                .bind('Moved', function (from) {
+                    if (this.hit('solid')) {
+                        this.attr({ x: from.x, y: from.y });
+                    }
+                }).bind('Change', function () {
+					var id = 0;
+
+					update_info(id, this._x, this._y);
+
+					player2.attr({
+						x: x_player2, 
+						y: y_player2
+					});				
+                });
+                    return this;
+                }
+            });
+
+            // Teleportation
+
+            Crafty.c("Teleport", {
+                _justTraversed: false,
+
+                teleport: function () {
+                    this.requires("Collision")
+		    		.onHit("Portal", function (target) {
+		    		    if (this._justTraversed == false) {
+		    		        this._justTraversed = true;
+		    		        if (target[0].obj == yellowPortal) {
+		    		            this.attr({ x: bluePortal.x, y: bluePortal.y });
+		    		        } else if (target[0].obj == bluePortal) {
+		    		            this.attr({ x: yellowPortal.x, y: yellowPortal.y });
+		    		        }
+		    		    }
+		    		}, function (target) {
+		    		    this._justTraversed = false;
+		    		});
+                    return this;
+                }
+            });
+
+            Crafty.c("Portal", {});
+
+            // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
+            Crafty.c("ParticleCollision", {
+                _collisionStep: 5,
+
+                detectCollision: function (playerPosition, mouseCoordinates) {
+                    this.attr({ x: playerPosition.x, y: playerPosition.y, w: 15, h: 15 });
+                    this.requires("Collision");
+                    var dx = mouseCoordinates.x - playerPosition.x;
+                    var dy = mouseCoordinates.y - playerPosition.y;
+                    var alpha = dy / dx;
+                    var i = 0;
+                    while (this.hit('solid') == false && i < 1000) {
+			if (dx > 0) {
+			    this.attr({ x: this._x + this._collisionStep, y: this._y +  this._collisionStep * alpha});
+			} else {
+			    this.attr({ x: this._x - this._collisionStep, y: this._y -  this._collisionStep * alpha});
+			}
+                        i = i + 1;
+                        //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
+                    }
+
+                    return this.attr();
+                }
+
+
+            });
+
+            /* Entering the exit door allows you to proceed to the next level */
+            Crafty.c("LevelUp", {
+                init: function () {
+                    this.requires("Collision")
+		    		.onHit("Exit", function () {
+		    		    Crafty.scene("LevelTwo");
+		    		});
+                }
+            });
+
+            Crafty.c("Exit", {});
+
+            /* Retrieving graphics from sprite sheets */
+
+            Crafty.sprite("http://1.bp.blogspot.com/_PEZndt-fXCg/SagBaZQtv3I/AAAAAAAAAFg/4B5PCtEPEBE/s400/game+character+poses.jpg", {
+                char: [115, 160, 50, 80]
+            });
+
+            Crafty.sprite("./images/main_char.png", {
+                right: [560, 0, 90, 190],
+                jump: [0, 0, 90, 170]
+
+            });
+
+            Crafty.sprite("./images/brick_wall.jpg", {
+                verticalWall: [0, 0, 10, 300],
+                horizontalWall: [0, 0, 100, 10]
+            });
+
+            Crafty.sprite("./images/portals.png", {
+                bluePortal: [235, 135, 30, 70],
+                yellowPortal: [268, 137, 30, 70]
+            });
+
+            Crafty.sprite("./images/exit_door.png", {
+                exitDoor: [0, 0, 48, 48]
+            });
+
+	    Crafty.sprite("./images/resized_main_char.png", {
+                still: [218, 1, 32, 74],
+		walk_right: [222, 76, 45, 74]
+            });
+
+            /* Entities declarations */
+
+            var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid")
+       				.attr({ x: width / 2, y: height - 300, z: 1 });
+
+            //        var wall2 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
+            //       				.attr({ x: width / 4, y: height - 100, z: 1 });
+
+            //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
+            //       				.attr({ x: width / 3, y: height - 200, z: 1 });
+
+            var floor = Crafty.e("2D, DOM, floor, solid")
+        			.attr({ x: 0, y: height, w: width, h: 0 });
+            var ceiling = Crafty.e("2D, DOM, solid")
+        			.attr({ x: 0, y: 0, w: width, h: 0 });
+            var left = Crafty.e("2D, DOM, solid")
+        			.attr({ x: 0, y: 0, w: 0, h: height });
+            var right = Crafty.e("2D, DOM, solid")
+        			.attr({ x: width, y: 0, w: 0, h: height });
+
+            player2 = Crafty.e("2D, DOM, Multiway, char")
+                .attr({ x: 100, y: 100, z: 1 });
+                //.multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
+
+            var player1 = Crafty.e("2D, DOM, Ape, Multiway, still, Gravity, Teleport, LevelUp")
+            .attr({ x: 200, y: 80, z: 1 })
+            .Ape()
+            .multiway(charSpeed, { SPACE: -90, RIGHT_ARROW: 0, LEFT_ARROW: 180 })
+	    	.gravity("floor")
+	    	.gravityConst(gravity)
+	    	.teleport();
+
+            //portal creation
+            var yellowPortal = Crafty.e("2D, DOM, yellowPortal, Portal")
+				   				.attr({ x: 500, y: 330 });
+            var bluePortal = Crafty.e("2D, DOM, bluePortal, Portal")
+								.attr({ x: 500, y: 430 });
+
+            var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
+								.attr({ x: 600, y: 200, z: 1 });
+								
+			var collisionParticle = Crafty.e("2D, ParticleCollision")
+								.attr({ x: 0, y: 0 });
+
+            var mouse = Crafty.e("2D, Mouse").attr({ w: width, h: height });
+            mouse.bind('Click', function (e) {
+                var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
+                var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates);
+		bluePortal.attr({ x: newPortalPosition.x, y: newPortalPosition.y });
+                //alert(coordinates.x + ";" + coordinates.y);
+            });
+
+        }); // Closing levelOne scene
+
+        Crafty.scene("loading");
+
+    </script>
+</body>
+</html>
