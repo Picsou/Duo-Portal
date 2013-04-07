@@ -12,10 +12,9 @@
         <title>Collaborative 2D Portal Game</title>
     </head>
     <body>
-		<embed src='musics/portal_main_theme.wav' hidden='true' autostart='true' loop='true' class='playSound'>
-
 		<audio autoplay="true" loop="true" controls>
 			<source src="musics/portal_main_theme.wav" type="audio/wav">
+			<source src="musics/Portal 2 Want You Gone.wav" type="audio/wav">
 		</audio>
 	
 		<div style="display:table;width:100%;height:400px;text-align:center;">
@@ -148,11 +147,17 @@
 					});
 				});
 
+				$("#no").click(function(){
+					refuse_invite(player_name, function(){
+						$("#play_div").trigger('reveal:close');
+					});
+				});
+
 				$("#list_players").dblclick(function(){
 					var other_player = $("#list_players option:selected").text();
 
 					$("#play_div_header").html("Inviting " + other_player);
-					$("#play_div_content").html("<p><img src='images/ajax.gif' style='width:80px;'/></p>");
+					$("#play_div_content").html("<p><img src='images/ajax.gif' style='width:80px;'></p>");
 
 					$("#play_div").reveal();
 
@@ -163,7 +168,9 @@
 					setInterval(function(){
 						confirm_invite(player_name, function(){
 							window.location.href = "game.html?user=" + player_name + "&invite=" + other_player;		
-						})
+						}, function(){
+								$("#play_div").trigger('reveal:close');
+						});
 					}, 1000);
 				});
 			});

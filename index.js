@@ -72,6 +72,15 @@ var sock = shoe(function (stream) {
 			cb();
         },
 
+		refuse_invite: function (user, cb) {
+			for(var i = 0; i < inviting.length; i++){
+				if(inviting[i] == user){
+					inviting.splice(i, 2);
+					cb();
+				}
+			}	
+        },
+
 		confirm_nick: function (value) {
         	confirm_players[confirm_players.length] = value;
         },
@@ -80,12 +89,20 @@ var sock = shoe(function (stream) {
             cb(players, inviting);
         },
 
-		confirm_invite: function (user, cb) {
+		confirm_invite: function (user, cb, cb1) {
 			for(var i = 0; i < playing.length; i++){
 				if(playing[i] == user){
 					cb(playing[i + 1]);
 				}
 			}
+
+			for(var i = 0; i < playing.length; i++){
+				if(inviting[i] == user){
+					cb1(true);
+				}
+			}
+
+			cb1(false);
         },
 
 		play: function (user, invite, cb) {

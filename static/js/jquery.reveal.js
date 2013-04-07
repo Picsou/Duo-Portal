@@ -131,7 +131,7 @@
     		modal.trigger('reveal:open')
 			
 			//Close Modal Listeners
-			var closeButton = $('.' + options.dismissmodalclass).bind('click.modalEvent', function () {
+			var closeButton = $('#' + options.dismissmodalclass).bind('click.modalEvent', function () {
 			  modal.trigger('reveal:close')
 			});
 			
