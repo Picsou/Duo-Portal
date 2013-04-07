@@ -1,6 +1,5 @@
 _ Graphics for portal
-_ Spritesheet for players
-_ size of the collision particule : probably size of portal
 _ background image
 _ wall selection
 _ simulate walking
+_ untrap player when in wall
