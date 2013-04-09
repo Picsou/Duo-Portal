@@ -1,5 +1,5 @@
-_ Graphics for portal
 _ background image
 _ wall selection
-_ simulate walking
+_ graphic bug walking
 _ untrap player when in wall
+_ 

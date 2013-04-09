@@ -193,6 +193,8 @@
                 });
 
                 Crafty.c("Portal", {});
+				Crafty.c("vertical", {});
+				Crafty.c("horizontal", {});
 
                 // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
                 Crafty.c("ParticleCollision", {
@@ -226,16 +228,38 @@
                             i = i + 1;
                             //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
                         }
+						if (this.hit('vertical')) {
+							if (portal == bluePortal) {
+								portal.addComponent("vertical_blue");
+							} else {
+								portal.addComponent("vertical_yellow");
+							}
+						}
+						else {
+							if (portal == bluePortal) {
+								portal.addComponent("horizontal_blue");
+							} else {
+								portal.addComponent("horizontal_yellow");
+							}
+						}
                         if (dx > 0) {
                             this.attr({
-                                x: this._x - portal._w + this._particuleSize
+                                x: this._x - portal._w / 2 + this._particuleSize
                             });
-                        }
+                        } else {
+							this.attr({
+                                x: this._x - portal._w / 2
+                            });
+						}
                         if (dy > 0) {
                             this.attr({
-                                y: this._y - portal._h + this._particuleSize
+                                y: this._y - portal._h / 2 + this._particuleSize
                             });
-                        }
+                        } else {
+							this.attr({
+                                y: this._y - portal._h / 2
+                            });
+						}
                         return this.attr();
                     }
 
@@ -288,12 +312,14 @@
 
                 Crafty.sprite("./images/sprite_portals_resized.png", {
                     vertical_blue: [0, 0, 41, 83],
-                    vertical_yellow: [52, 0, 41, 83]
+                    vertical_yellow: [52, 0, 41, 83],
+					horizontal_blue: [8, 95, 83, 42],
+					horizontal_yellow: [8, 147, 83, 42],
                 });
 
                 /* Entities declarations */
 
-                var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid")
+                var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid, vertical")
                     .attr({
                     x: 4 * width / 5,
                     y: height - 300,
@@ -306,28 +332,28 @@
                 //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
                 //       				.attr({ x: width / 3, y: height - 200, z: 1 });
 
-                var floor = Crafty.e("2D, DOM, floor, solid")
+                var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
                     .attr({
                     x: 0,
                     y: height,
                     w: width,
                     h: 0
                 });
-                var ceiling = Crafty.e("2D, DOM, solid")
+                var ceiling = Crafty.e("2D, DOM, solid, horizontal")
                     .attr({
                     x: 0,
                     y: 0,
                     w: width,
                     h: 0
                 });
-                var left = Crafty.e("2D, DOM, solid")
+                var left = Crafty.e("2D, DOM, solid, vertical")
                     .attr({
                     x: 0,
                     y: 0,
                     w: 0,
                     h: height
                 });
-                var right = Crafty.e("2D, DOM, solid")
+                var right = Crafty.e("2D, DOM, solid, vertical")
                     .attr({
                     x: width,
                     y: 0,
@@ -363,12 +389,14 @@
                 var yellowPortal = Crafty.e("2D, DOM, vertical_yellow, Portal")
                     .attr({
                     x: 10,
-                    y: 300
+                    y: 300,
+					z: 1
                 });
                 var bluePortal = Crafty.e("2D, DOM, vertical_blue, Portal")
                     .attr({
                     x: 500,
-                    y: 430
+                    y: 430,
+					z: 1
                 });
 
                 var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
