@@ -22,6 +22,10 @@
     </head>
     
     <body style="background: #222222 url(../images/bg-checker.png);">
+		<audio controls>
+			<source src="musics/Portal 2 Want You Gone.wav" type="audio/wav">
+		</audio>
+
         <script type="text/javascript">
             function QueryString() {
                 var query_string = new Array();
@@ -59,7 +63,7 @@
 
             Crafty.scene("loading", function () {
                 //load takes an array of assets and a callback when complete
-                Crafty.load(["./images/background.png", "./musics/portal_main_theme.mp3"], function () {
+                Crafty.load(["./images/background.png"], function () {
                     Crafty.scene("LevelOne");
                 });
 
@@ -86,8 +90,8 @@
                 Crafty.e("2D, DOM, Image").image("./images/background.png");
 
                 // Background music
-                Crafty.audio.add("backgroundMusic", ["./musics/portal_main_theme.mp3", "./musics/portal_main_theme.ogg", "./musics/portal_main_theme.wav"]);
-                Crafty.audio.play("backgroundMusic", 0);
+                //Crafty.audio.add("backgroundMusic", ["./musics/portal_main_theme.mp3", "./musics/portal_main_theme.ogg", "./musics/portal_main_theme.wav"]);
+                //Crafty.audio.play("backgroundMusic", 0);
 
                 /* Components declaration */
 
