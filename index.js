@@ -89,16 +89,24 @@ var sock = shoe(function (stream) {
             cb(players, inviting);
         },
 
-		confirm_invite: function (user, cb, cb1) {
+		confirm_invite: function (user, player, cb, cb1) {
 			for(var i = 0; i < playing.length; i++){
-				if(playing[i] == user){
-					cb(playing[i + 1]);
+				if(playing[i] == player){
+					cb();
+					return;
 				}
 			}
 
-			for(var i = 0; i < playing.length; i++){
-				if(inviting[i] == user){
+			for(var i = 0; i < inviting.length; i++){
+				if(inviting[i] == player){
 					cb1(true);
+					return;
+				}
+			}
+
+			for(var i = 0; i < inviting.length; i++){
+				if(inviting[i] == user){
+					inviting.splice(i, 1);
 				}
 			}
 
@@ -118,8 +126,6 @@ var sock = shoe(function (stream) {
 					player_x[i] = x;
 					player_y[i] = y;
 
-					//console.log(id, i, player_x[i], player_y[i]);
-
 					cb();
 
 					return;
@@ -127,22 +133,16 @@ var sock = shoe(function (stream) {
 			}
 	
             cb();
-
-			//console.log("new x,y = " + x + " " + y);
         },
 
         get_xy: function (id, cb) {
 			for(var x = 0; x < playing.length; x++){
 				if(id == playing[x]){
-					//console.log(id, x, player_x[x], player_y[x]);
-
 					cb(player_x[x], player_y[x]);
 					
 					return;
 				}
 			}
-			
-            //cb(100, 100);
         }
     });
 

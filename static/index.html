@@ -12,9 +12,9 @@
         <title>Collaborative 2D Portal Game</title>
     </head>
     <body>
-		<audio autoplay="true" loop="true" controls>
-			<source src="musics/portal_main_theme.wav" type="audio/wav">
-			<source src="musics/Portal 2 Want You Gone.wav" type="audio/wav">
+		<audio autoplay="false" loop="true" controls>
+			<!source src="musics/portal_main_theme.wav" type="audio/wav">
+			<!source src="musics/Portal 2 Want You Gone.wav" type="audio/wav">
 		</audio>
 	
 		<div style="display:table;width:100%;height:400px;text-align:center;">
@@ -54,6 +54,32 @@
 					
 					<a href="#" class="button_modal green" id="yes">Yes, do it now!</a>
 					<a href="#" class="button_modal red" id="no">No, I’m insane!</a>
+				</div>
+			</div>
+		</div>
+
+		<div id="invite_div" class="modal">
+			<div class="modal_heading" id="invite_div_header">
+				Let's play
+			</div>
+
+			<div class="modal_content" style="display:table;text-align:center;">
+				<div style="display:table-cell;vertical-align:middle;" id="invite_div_content">
+					<p><img src='images/ajax.gif' style='width:80px;'></p>
+				</div>
+			</div>
+		</div>
+
+		<div id="err_div" class="modal">
+			<div class="modal_heading" id="err_div_header">
+				Err...
+			</div>
+
+			<div class="modal_content" style="display:table;text-align:center;">
+				<div style="display:table-cell;vertical-align:middle;" id="err_div_content">
+					<p></p>
+					
+					<a href="#" class="button_modal green" id="ok" style="width:210px;margin-left:70px;">Ok, I will find someone else!</a>
 				</div>
 			</div>
 		</div>
@@ -153,25 +179,36 @@
 					});
 				});
 
-				$("#list_players").dblclick(function(){
+				$("#ok").click(function(){	
+					$("#err_div").hide();
+					$("#invite_div").trigger('reveal:close');
+				});
+
+				$("#list_players").dblclick(function(a){
 					var other_player = $("#list_players option:selected").text();
 
-					$("#play_div_header").html("Inviting " + other_player);
-					$("#play_div_content").html("<p><img src='images/ajax.gif' style='width:80px;'></p>");
+					if(other_player){
+						$("#invite_div_header").html("Inviting " + other_player);
+						$("#invite_div").reveal();
 
-					$("#play_div").reveal();
+						invite(player_name, other_player, function(){
 
-					invite(player_name, other_player, function(){
-
-					});
-
-					setInterval(function(){
-						confirm_invite(player_name, function(){
-							window.location.href = "game.html?user=" + player_name + "&invite=" + other_player;		
-						}, function(){
-								$("#play_div").trigger('reveal:close');
 						});
-					}, 1000);
+
+						var refreshIntervalId = setInterval(function(){
+							confirm_invite(player_name, other_player, function(){
+								window.location.href = "game.html?user=" + player_name + "&invite=" + other_player;		
+							}, function(arg){
+								if(!arg){
+									$("#invite_div").hide();
+									$("#err_div_content p").html("Looks like " + other_player + " doesn't want to play with you...");
+									$("#err_div").show();
+
+									clearInterval(refreshIntervalId);
+								}
+							});
+						}, 1000);
+					}
 				});
 			});
 		}

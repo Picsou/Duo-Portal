@@ -66,12 +66,12 @@ domready(function(){
 		d.pipe(stream).pipe(d);
 	}
 
-	window.confirm_invite = function(user, cb, cb1) {
+	window.confirm_invite = function(user, inviting, cb, cb1) {
 		var stream = shoe('/nick');
 		var d = dnode();
 
 		d.on('remote', function (remote) {
-			remote.confirm_invite(user, cb, cb1);
+			remote.confirm_invite(user, inviting, cb, cb1);
 		});
 
 		d.pipe(stream).pipe(d);
