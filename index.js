@@ -69,7 +69,6 @@ var sock = shoe(function (stream) {
 		invite: function (user, invite, cb) {
 			inviting[inviting.length] = user;
 			inviting[inviting.length] = invite;
-			confirm_inviting[confirm_inviting.length] = value;
 
 			cb();
         },
