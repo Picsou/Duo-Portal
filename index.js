@@ -61,13 +61,15 @@ var sock = shoe(function (stream) {
 			}
 
         	players[players.length] = value;
+			confirm_players[confirm_players.length] = value;
 
-			cb(true);
+			cb(players[players.length - 1]);
         },
 
 		invite: function (user, invite, cb) {
 			inviting[inviting.length] = user;
 			inviting[inviting.length] = invite;
+			confirm_inviting[confirm_inviting.length] = value;
 
 			cb();
         },

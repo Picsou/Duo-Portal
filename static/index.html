@@ -155,15 +155,19 @@
 
 						player_name = $("#nick").val();
 
-						set_nick($("#nick").val(), function(result){
-							if(!result){
+						set_nick(player_name, function(result){
+							if(result == false){
 								alert("Nick already taken, please choose another");
+								$("#nick").focus();
 							}
 							else{
+								console.log(result);
 								$("#welcome").html("Welcome " + $("#nick").val());
 								$("#nick_div").trigger('reveal:close');
 							}
 						});
+
+						$('#nick').blur();
 					}
 				});
 
