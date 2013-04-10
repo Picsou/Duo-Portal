@@ -39,7 +39,7 @@ domready(function(){
 		d.pipe(stream).pipe(d);
 	}
 
-	window.update_info = function(user, invite, x, y) {
+	window.update_info = function(user, invite, x, y, error) {
 		var stream = shoe('/nick');
 		var d = dnode();
 
@@ -50,6 +50,10 @@ domready(function(){
 					y_player2 = y2;
 				});
 			});
+		});
+
+		d.on('end', function(){
+			error();
 		});
 
 		d.pipe(stream).pipe(d);

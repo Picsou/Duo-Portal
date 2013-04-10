@@ -1,9 +1,8 @@
 <html>
-    
     <head>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="js/static.js"></script>
         <script type="text/javascript" src="js/crafty.js"></script>
+		<link href="css/screen.css" type="text/css" rel="stylesheet" />	
         <title>Collaborative 2D Portal Game</title>
         <style>
             body, html {
@@ -49,7 +48,7 @@
             };
 
             var users = QueryString();
-            var fps = 1000 / 20;
+            var fps = 20;
             var player2 = null;
             var player1 = null;
 
@@ -432,21 +431,64 @@
 
             }); // Closing levelOne scene
 
-            setInterval(function () {
-                if (player1 != null) {
-                    update_info(users['user'], users['invite'], player1._x, player1._y);
+            var intervalId;
+			var errorCounter = 0;
+			var errorTimes = 0;
 
-                    //console.log("my " + player1._x + " " + player1._y + " other " + x_player2 + " " + y_player2);
+			function trigger(){
+				if(intervalId){
+					clearInterval(intervalId);
+				}
+	
+				intervalId = setInterval(function () {
+		            if (player1 != null) {
+						//console.log(errorCounter);
 
-                    player2.tween({
-                        x: x_player2,
-                        y: y_player2
-                    }, 6);
-                }
-            }, fps);
+		                update_info(users['user'], users['invite'], player1._x, player1._y, function(){
+							errorCounter++;
 
-            Crafty.scene("loading");
+							//console.log(errorCounter);
+
+							if(errorCounter == 100){
+								errorCounter = 0;	
+								errorTimes++;
+								alert("Looks like your connection is not that good, we are changing your fps to 20");
+								fps = 20;
+								trigger();	
+							}
+
+							if(errorTimes == 5){
+								alert("Do you really thing that your computer/connection can handle this?");
+								errorTimes = 0;
+							}
+						});
+
+		                player2.tween({
+		                    x: x_player2,
+		                    y: y_player2
+		                }, 6);
+		            }
+		        }, 1000 / fps);
+			}
+
+            Crafty.scene("loading");	
+
+			window.onload = function(){
+				document.getElementById('fps').value = fps;
+				document.getElementById('val').innerHTML = fps;
+
+				trigger();
+			}
+	
+			function update_fps(){
+				fps = document.getElementById('fps').value;
+				document.getElementById('val').innerHTML = fps;
+
+				trigger();
+			}
         </script>
+		<div style="height:200px;text-align:center;line-height:200px;">
+			fps (<span id="val"></span>): <input type="range" id="fps" onChange="update_fps()" min="10" max="60" style="width:300px;"/> 
+		</div>  
     </body>
-
 </html>
