@@ -60,6 +60,14 @@ var sock = shoe(function (stream) {
 				}
 			}
 
+			for(var x = 0; x < playing.length; x++){
+				if(value == playing[x]){
+					cb(false);
+
+					return;
+				}
+			}
+
         	players[players.length] = value;
 			confirm_players[confirm_players.length] = value;
 
