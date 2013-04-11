@@ -311,9 +311,11 @@
 		            });
 
 		            Crafty.sprite("./images/resized_main_char.png", {
-		                still: [256, 151, 49, 74],
-		                still_right: [256, 151, 49, 76],
-		                walk_left: [548, 1, 33, 74]
+		                still_blue: [256, 151, 49, 74]
+		            });
+
+					Crafty.sprite("./images/resized_secondary_char.png", {
+		                still_red: [256, 151, 49, 74]
 		            });
 
 		            Crafty.sprite("./images/sprite_portals_resized.png", {
@@ -367,15 +369,22 @@
 		                h: height
 		            });
 
-		            player2 = Crafty.e("2D, DOM, Multiway, char, Tween")
-		                .attr({
-		                x: 100,
-		                y: 100,
-		                z: 1
-		            });
+		            //player2 = Crafty.e("2D, DOM, Multiway, char, Tween")
+		            //    .attr({
+		            //    x: 100,
+		            //    y: 100,
+		            //    z: 1
+		            //});
 		            //.multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
 
-		            player1 = Crafty.e("2D, DOM, Ape, Multiway, still, Gravity, Teleport, LevelUp")
+					player2 = Crafty.e("2D, DOM, Multiway, still_red, Tween")
+		                .attr({
+		                x: 200,
+		                y: 80,
+		                z: 1
+		            });
+
+		            player1 = Crafty.e("2D, DOM, Ape, Multiway, still_blue, Gravity, Teleport, LevelUp")
 		                .attr({
 		                x: 200,
 		                y: 80,
