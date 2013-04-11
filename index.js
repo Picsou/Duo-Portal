@@ -11,9 +11,11 @@ var playing = new Array();
 
 var player_x = new Array();
 var player_y = new Array();
+
+var messages = new Array();
  
 var server = http.createServer(ecstatic);
-server.listen(9999);
+server.listen(80);
 
 function in_array(needle, haystack) {
     var length = haystack.length;
@@ -152,11 +154,38 @@ var sock = shoe(function (stream) {
 					return;
 				}
 			}
-        }
+        },
+
+        send_message: function (user, message) {
+			for(var x = 0; x < playing.length; x++){
+				if(user == playing[x]){
+					if (messages[x] instanceof Array) {
+						messages[x][messages[x].length] = message;
+					}
+					else{
+						messages[x] = new Array();
+						messages[x][0] = message;
+					}
+			
+					return;
+				}
+			}
+        },
+
+		get_message: function (user, cb) {
+			for(var x = 0; x < playing.length; x++){
+				if(user == playing[x]){
+					cb(messages[x]);
+
+					messages[x] = null;
+			
+					return;
+				}
+			}
+        },
     });
 
     d.pipe(stream).pipe(d);
 });
 
 sock.install(server, '/nick');
-//sock.install(server, '/xy');

@@ -103,6 +103,28 @@ domready(function(){
 		d.pipe(stream).pipe(d);
 	}
 
+	window.send_message = function(user, message) {
+		var stream = shoe('/nick');
+		var d = dnode();
+
+		d.on('remote', function (remote) {
+			remote.send_message(user, message);
+		});
+
+		d.pipe(stream).pipe(d);
+	}
+
+	window.get_message = function(user, cb) {
+		var stream = shoe('/nick');
+		var d = dnode();
+
+		d.on('remote', function (remote) {
+			remote.get_message(user, cb);
+		});
+
+		d.pipe(stream).pipe(d);
+	}
+
 	if(typeof window.ready == 'function') {
 		ready();
 	}

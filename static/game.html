@@ -47,448 +47,491 @@
                 return query_string;
             };
 
-            var users = QueryString();
-            var fps = 20;
-            var player2 = null;
-            var player1 = null;
+			var intervalId;
+			var users = QueryString();
+	        var fps = 20;
+	        var player2 = null;
+	        var player1 = null;
 
-             // Global variables
-            var width = 600;
-            var height = 400;
-            charSpeed = 6;
-            gravity = 0.3;
+	         // Global variables
+	        var width = 600;
+       	 	var height = 400;
 
-            var window = Crafty.init(width, height);
+			function ready(){
+		        charSpeed = 6;
+		        gravity = 0.3;
 
-            Crafty.scene("loading", function () {
-                //load takes an array of assets and a callback when complete
-                Crafty.load(["./images/background.png"], function () {
-                    Crafty.scene("LevelOne");
-                });
+		        var window = Crafty.init(width, height);
 
-                Crafty.background("#070");
-                Crafty.e("2D, DOM, Text").attr({
-                    w: 100,
-                    h: 20,
-                    x: 150,
-                    y: 120
-                })
-                    .text("Loading")
-                    .css({
-                    "text-align": "center"
-                });
-            });
+		        Crafty.scene("loading", function () {
+		            //load takes an array of assets and a callback when complete
+		            Crafty.load(["./images/background.png"], function () {
+		                Crafty.scene("LevelOne");
+		            });
+
+		            Crafty.background("#070");
+		            Crafty.e("2D, DOM, Text").attr({
+		                w: 100,
+		                h: 20,
+		                x: 150,
+		                y: 120
+		            })
+		                .text("Loading")
+		                .css({
+		                "text-align": "center"
+		            });
+		        });
 
 
-            Crafty.scene("LevelOne", function () {
-                Crafty.load(["./images/background.png"], function () {
-                    // You can add level two here
-                });
+		        Crafty.scene("LevelOne", function () {
+		            Crafty.load(["./images/background.png"], function () {
+		                // You can add level two here
+		            });
 
-                // Adding a nice background image
-                Crafty.e("2D, DOM, Image").image("./images/background.png");
+		            // Adding a nice background image
+		            Crafty.e("2D, DOM, Image").image("./images/background.png");
 
-                // Background music
-                //Crafty.audio.add("backgroundMusic", ["./musics/portal_main_theme.mp3", "./musics/portal_main_theme.ogg", "./musics/portal_main_theme.wav"]);
-                //Crafty.audio.play("backgroundMusic", 0);
+		            // Background music
+		            //Crafty.audio.add("backgroundMusic", ["./musics/portal_main_theme.mp3", "./musics/portal_main_theme.ogg", "./musics/portal_main_theme.wav"]);
+		            //Crafty.audio.play("backgroundMusic", 0);
 
-                /* Components declaration */
+		            /* Components declaration */
 
-                Crafty.c('Ape', {
-                    _potentiallyInWall: false,
+		            Crafty.c('Ape', {
+		                _potentiallyInWall: false,
 
-                    Ape: function () {
-                        //setup animations
-                        this.requires("SpriteAnimation, Collision")
-                            .animate("walk_left", [
-                            [444, 150],
-                            [544, 150],
-                            [494, 150]
-                        ])
-                            .animate("walk_right", [
-                            [307, 151],
-                            [208, 150],
-                            [256, 151]
-                        ]) // 49, 76 // 50, 76 // 49, 76 //
-                        .animate("jump_up", [
-                            [53, 227]
-                        ]) // 53, 227, 39, 78
-                        .animate("jump_down", [
-                            [102, 227],
-                            [143, 230]
-                        ])
-                            .animate("still", 256, 151, 256)
-                        //change direction when a direction change event is received
-                        .bind("NewDirection", function (direction) {
-                            if (direction.x < 0) {
-                                if (!this.isPlaying("walk_left"))
-                                //this.attr({ w: 49, h: 76});
-                                    this.stop().animate("walk_left", 20, -1);
-                            }
-                            if (direction.x > 0) {
-                                if (!this.isPlaying("walk_right")) {
-                                    //this.attr({ w: 49, h: 76});
-                                    this.stop().animate("walk_right", 20, -1);
-                                }
-                            }
-                            if (direction.y < 0) {
-                                if (!this.isPlaying("jump_up"))
-                                //this.attr({ w: 42, h: 80});
-                                    this.stop().animate("jump_up", 20, 1);
-                            }
-                            if (direction.y > 0) {
-                                if (this.isPlaying("jump_up"))
-                                //this.attr({ w: 42, h: 80});
-                                    this.stop().animate("jump_down", 20, -1);
-                            }
-                            if (!direction.x && !direction.y) {
-                                //this.attr({ w: 49, h: 76});
-                                this.stop().animate("still", 1, -1);
-                            }
-                        })
-                        // A rudimentary way to prevent the user from passing solid areas
-                        .bind('Moved', function (from) {
-                            if (this.hit('solid') && !this._potentiallyInWall) {
-                                this.attr({
-                                    x: from.x,
-                                    y: from.y
-                                });
-                            }
-                            if (!this.hit('solid')) {
-                                this._potentiallyInWall = false;
-                            }
-                        }).bind('Change', function () {
-                            if (this._justTraversed) {
-                                this._potentiallyInWall = true;
-                            }
-                        });
-                        return this;
-                    }
-                });
+		                Ape: function () {
+		                    //setup animations
+		                    this.requires("SpriteAnimation, Collision")
+		                        .animate("walk_left", [
+		                        [444, 150],
+		                        [544, 150],
+		                        [494, 150]
+		                    ])
+		                        .animate("walk_right", [
+		                        [307, 151],
+		                        [208, 150],
+		                        [256, 151]
+		                    ]) // 49, 76 // 50, 76 // 49, 76 //
+		                    .animate("jump_up", [
+		                        [53, 227]
+		                    ]) // 53, 227, 39, 78
+		                    .animate("jump_down", [
+		                        [102, 227],
+		                        [143, 230]
+		                    ])
+		                        .animate("still", 256, 151, 256)
+		                    //change direction when a direction change event is received
+		                    .bind("NewDirection", function (direction) {
+		                        if (direction.x < 0) {
+		                            if (!this.isPlaying("walk_left"))
+		                            //this.attr({ w: 49, h: 76});
+		                                this.stop().animate("walk_left", 20, -1);
+		                        }
+		                        if (direction.x > 0) {
+		                            if (!this.isPlaying("walk_right")) {
+		                                //this.attr({ w: 49, h: 76});
+		                                this.stop().animate("walk_right", 20, -1);
+		                            }
+		                        }
+		                        if (direction.y < 0) {
+		                            if (!this.isPlaying("jump_up"))
+		                            //this.attr({ w: 42, h: 80});
+		                                this.stop().animate("jump_up", 20, 1);
+		                        }
+		                        if (direction.y > 0) {
+		                            if (this.isPlaying("jump_up"))
+		                            //this.attr({ w: 42, h: 80});
+		                                this.stop().animate("jump_down", 20, -1);
+		                        }
+		                        if (!direction.x && !direction.y) {
+		                            //this.attr({ w: 49, h: 76});
+		                            this.stop().animate("still", 1, -1);
+		                        }
+		                    })
+		                    // A rudimentary way to prevent the user from passing solid areas
+		                    .bind('Moved', function (from) {
+		                        if (this.hit('solid') && !this._potentiallyInWall) {
+		                            this.attr({
+		                                x: from.x,
+		                                y: from.y
+		                            });
+		                        }
+		                        if (!this.hit('solid')) {
+		                            this._potentiallyInWall = false;
+		                        }
+		                    }).bind('Change', function () {
+		                        if (this._justTraversed) {
+		                            this._potentiallyInWall = true;
+		                        }
+		                    });
+		                    return this;
+		                }
+		            });
 
-                // Teleportation
+		            // Teleportation
 
-                Crafty.c("Teleport", {
-                    _justTraversed: false,
+		            Crafty.c("Teleport", {
+		                _justTraversed: false,
 
-                    teleport: function () {
-                        this.requires("Collision")
-                            .onHit("Portal", function (target) {
-                            if (this._justTraversed == false) {
-                                this._justTraversed = true;
-                                if (target[0].obj == yellowPortal) {
-                                    this.attr({
-                                        x: bluePortal.x,
-                                        y: bluePortal.y
-                                    });
-                                } else if (target[0].obj == bluePortal) {
-                                    this.attr({
-                                        x: yellowPortal.x,
-                                        y: yellowPortal.y
-                                    });
-                                }
-                            }
-                        }, function (target) {
-                            this._justTraversed = false;
-                        });
-                        return this;
-                    }
-                });
+		                teleport: function () {
+		                    this.requires("Collision")
+		                        .onHit("Portal", function (target) {
+		                        if (this._justTraversed == false) {
+		                            this._justTraversed = true;
+		                            if (target[0].obj == yellowPortal) {
+		                                this.attr({
+		                                    x: bluePortal.x,
+		                                    y: bluePortal.y
+		                                });
+		                            } else if (target[0].obj == bluePortal) {
+		                                this.attr({
+		                                    x: yellowPortal.x,
+		                                    y: yellowPortal.y
+		                                });
+		                            }
+		                        }
+		                    }, function (target) {
+		                        this._justTraversed = false;
+		                    });
+		                    return this;
+		                }
+		            });
 
-                Crafty.c("Portal", {});
-				Crafty.c("vertical", {});
-				Crafty.c("horizontal", {});
+		            Crafty.c("Portal", {});
+					Crafty.c("vertical", {});
+					Crafty.c("horizontal", {});
 
-                // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
-                Crafty.c("ParticleCollision", {
-                    _collisionStep: 1,
-                    _particuleSize: 5,
+		            // Create a particule that will collide with the nearest object between the player's arm and the wall in order to project the portal
+		            Crafty.c("ParticleCollision", {
+		                _collisionStep: 1,
+		                _particuleSize: 5,
 
-                    detectCollision: function (playerPosition, mouseCoordinates, portal) {
-                        this.attr({
-                            x: playerPosition.x,
-                            y: playerPosition.y,
-                            w: this._particuleSize,
-                            h: this._particuleSize
-                        });
-                        this.requires("Collision");
-                        var dx = mouseCoordinates.x - playerPosition.x;
-                        var dy = mouseCoordinates.y - playerPosition.y;
-                        var alpha = dy / dx;
-                        var i = 0;
-                        while (this.hit('solid') == false && i < 1000) {
-                            if (dx > 0) {
-                                this.attr({
-                                    x: this._x + this._collisionStep,
-                                    y: this._y + this._collisionStep * alpha
-                                });
-                            } else {
-                                this.attr({
-                                    x: this._x - this._collisionStep,
-                                    y: this._y - this._collisionStep * alpha
-                                });
-                            }
-                            i = i + 1;
-                            //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
-                        }
-						if (this.hit('vertical')) {
-							if (portal == bluePortal) {
-								portal.addComponent("vertical_blue");
-							} else {
-								portal.addComponent("vertical_yellow");
+		                detectCollision: function (playerPosition, mouseCoordinates, portal) {
+		                    this.attr({
+		                        x: playerPosition.x,
+		                        y: playerPosition.y,
+		                        w: this._particuleSize,
+		                        h: this._particuleSize
+		                    });
+		                    this.requires("Collision");
+		                    var dx = mouseCoordinates.x - playerPosition.x;
+		                    var dy = mouseCoordinates.y - playerPosition.y;
+		                    var alpha = dy / dx;
+		                    var i = 0;
+		                    while (this.hit('solid') == false && i < 1000) {
+		                        if (dx > 0) {
+		                            this.attr({
+		                                x: this._x + this._collisionStep,
+		                                y: this._y + this._collisionStep * alpha
+		                            });
+		                        } else {
+		                            this.attr({
+		                                x: this._x - this._collisionStep,
+		                                y: this._y - this._collisionStep * alpha
+		                            });
+		                        }
+		                        i = i + 1;
+		                        //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
+		                    }
+							if (this.hit('vertical')) {
+								if (portal == bluePortal) {
+									portal.addComponent("vertical_blue");
+								} else {
+									portal.addComponent("vertical_yellow");
+								}
 							}
-						}
-						else {
-							if (portal == bluePortal) {
-								portal.addComponent("horizontal_blue");
-							} else {
-								portal.addComponent("horizontal_yellow");
+							else {
+								if (portal == bluePortal) {
+									portal.addComponent("horizontal_blue");
+								} else {
+									portal.addComponent("horizontal_yellow");
+								}
 							}
-						}
-                        if (dx > 0) {
-                            this.attr({
-                                x: this._x - portal._w / 2 + this._particuleSize
-                            });
-                        } else {
-							this.attr({
-                                x: this._x - portal._w / 2
-                            });
-						}
-                        if (dy > 0) {
-                            this.attr({
-                                y: this._y - portal._h / 2 + this._particuleSize
-                            });
-                        } else {
-							this.attr({
-                                y: this._y - portal._h / 2
-                            });
-						}
-                        return this.attr();
-                    }
+		                    if (dx > 0) {
+		                        this.attr({
+		                            x: this._x - portal._w / 2 + this._particuleSize
+		                        });
+		                    } else {
+								this.attr({
+		                            x: this._x - portal._w / 2
+		                        });
+							}
+		                    if (dy > 0) {
+		                        this.attr({
+		                            y: this._y - portal._h / 2 + this._particuleSize
+		                        });
+		                    } else {
+								this.attr({
+		                            y: this._y - portal._h / 2
+		                        });
+							}
+		                    return this.attr();
+		                }
 
 
-                });
+		            });
 
-                /* Entering the exit door allows you to proceed to the next level */
-                Crafty.c("LevelUp", {
-                    init: function () {
-                        this.requires("Collision")
-                            .onHit("Exit", function () {
-                            Crafty.scene("LevelTwo");
-                        });
-                    }
-                });
+		            /* Entering the exit door allows you to proceed to the next level */
+		            Crafty.c("LevelUp", {
+		                init: function () {
+		                    this.requires("Collision")
+		                        .onHit("Exit", function () {
+		                        Crafty.scene("LevelTwo");
+		                    });
+		                }
+		            });
 
-                Crafty.c("Exit", {});
+		            Crafty.c("Exit", {});
 
-                /* Retrieving graphics from sprite sheets */
+		            /* Retrieving graphics from sprite sheets */
 
-                Crafty.sprite("http://1.bp.blogspot.com/_PEZndt-fXCg/SagBaZQtv3I/AAAAAAAAAFg/4B5PCtEPEBE/s400/game+character+poses.jpg", {
-                    char: [115, 160, 50, 80]
-                });
+		            Crafty.sprite("http://1.bp.blogspot.com/_PEZndt-fXCg/SagBaZQtv3I/AAAAAAAAAFg/4B5PCtEPEBE/s400/game+character+poses.jpg", {
+		                char: [115, 160, 50, 80]
+		            });
 
-                Crafty.sprite("./images/main_char.png", {
-                    right: [560, 0, 90, 190],
-                    jump: [0, 0, 90, 170]
+		            Crafty.sprite("./images/main_char.png", {
+		                right: [560, 0, 90, 190],
+		                jump: [0, 0, 90, 170]
 
-                });
+		            });
 
-                Crafty.sprite("./images/brick_wall.jpg", {
-                    verticalWall: [0, 0, 10, 300],
-                    horizontalWall: [0, 0, 100, 10]
-                });
+		            Crafty.sprite("./images/brick_wall.jpg", {
+		                verticalWall: [0, 0, 10, 300],
+		                horizontalWall: [0, 0, 100, 10]
+		            });
 
-                Crafty.sprite("./images/portals.png", {
-                    bluePortal: [235, 135, 30, 70],
-                    yellowPortal: [268, 137, 30, 70]
-                });
+		            Crafty.sprite("./images/portals.png", {
+		                bluePortal: [235, 135, 30, 70],
+		                yellowPortal: [268, 137, 30, 70]
+		            });
 
-                Crafty.sprite("./images/exit_door.png", {
-                    exitDoor: [0, 0, 48, 48]
-                });
+		            Crafty.sprite("./images/exit_door.png", {
+		                exitDoor: [0, 0, 48, 48]
+		            });
 
-                Crafty.sprite("./images/resized_main_char.png", {
-                    still: [256, 151, 49, 74],
-                    still_right: [256, 151, 49, 76],
-                    walk_left: [548, 1, 33, 74]
-                });
+		            Crafty.sprite("./images/resized_main_char.png", {
+		                still: [256, 151, 49, 74],
+		                still_right: [256, 151, 49, 76],
+		                walk_left: [548, 1, 33, 74]
+		            });
 
-                Crafty.sprite("./images/sprite_portals_resized.png", {
-                    vertical_blue: [0, 0, 41, 83],
-                    vertical_yellow: [52, 0, 41, 83],
-					horizontal_blue: [8, 95, 83, 42],
-					horizontal_yellow: [8, 147, 83, 42],
-                });
+		            Crafty.sprite("./images/sprite_portals_resized.png", {
+		                vertical_blue: [0, 0, 41, 83],
+		                vertical_yellow: [52, 0, 41, 83],
+						horizontal_blue: [8, 95, 83, 42],
+						horizontal_yellow: [8, 147, 83, 42],
+		            });
 
-                /* Entities declarations */
+		            /* Entities declarations */
 
-                var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid, vertical")
-                    .attr({
-                    x: 4 * width / 5,
-                    y: height - 300,
-                    z: 1
-                });
+		            var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid, vertical")
+		                .attr({
+		                x: 4 * width / 5,
+		                y: height - 300,
+		                z: 1
+		            });
 
-                //        var wall2 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
-                //       				.attr({ x: width / 4, y: height - 100, z: 1 });
+		            //        var wall2 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
+		            //       				.attr({ x: width / 4, y: height - 100, z: 1 });
 
-                //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
-                //       				.attr({ x: width / 3, y: height - 200, z: 1 });
+		            //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
+		            //       				.attr({ x: width / 3, y: height - 200, z: 1 });
 
-                var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
-                    .attr({
-                    x: 0,
-                    y: height,
-                    w: width,
-                    h: 0
-                });
-                var ceiling = Crafty.e("2D, DOM, solid, horizontal")
-                    .attr({
-                    x: 0,
-                    y: 0,
-                    w: width,
-                    h: 0
-                });
-                var left = Crafty.e("2D, DOM, solid, vertical")
-                    .attr({
-                    x: 0,
-                    y: 0,
-                    w: 0,
-                    h: height
-                });
-                var right = Crafty.e("2D, DOM, solid, vertical")
-                    .attr({
-                    x: width,
-                    y: 0,
-                    w: 0,
-                    h: height
-                });
+		            var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
+		                .attr({
+		                x: 0,
+		                y: height,
+		                w: width,
+		                h: 0
+		            });
+		            var ceiling = Crafty.e("2D, DOM, solid, horizontal")
+		                .attr({
+		                x: 0,
+		                y: 0,
+		                w: width,
+		                h: 0
+		            });
+		            var left = Crafty.e("2D, DOM, solid, vertical")
+		                .attr({
+		                x: 0,
+		                y: 0,
+		                w: 0,
+		                h: height
+		            });
+		            var right = Crafty.e("2D, DOM, solid, vertical")
+		                .attr({
+		                x: width,
+		                y: 0,
+		                w: 0,
+		                h: height
+		            });
 
-                player2 = Crafty.e("2D, DOM, Multiway, char, Tween")
-                    .attr({
-                    x: 100,
-                    y: 100,
-                    z: 1
-                });
-                //.multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
+		            player2 = Crafty.e("2D, DOM, Multiway, char, Tween")
+		                .attr({
+		                x: 100,
+		                y: 100,
+		                z: 1
+		            });
+		            //.multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
 
-                player1 = Crafty.e("2D, DOM, Ape, Multiway, still, Gravity, Teleport, LevelUp")
-                    .attr({
-                    x: 200,
-                    y: 80,
-                    z: 1
-                })
-                    .Ape()
-                    .multiway(charSpeed, {
-                    SPACE: -90,
-                    RIGHT_ARROW: 0,
-                    LEFT_ARROW: 180
-                })
-                    .gravity("floor")
-                    .gravityConst(gravity)
-                    .teleport();
+		            player1 = Crafty.e("2D, DOM, Ape, Multiway, still, Gravity, Teleport, LevelUp")
+		                .attr({
+		                x: 200,
+		                y: 80,
+		                z: 1
+		            })
+		                .Ape()
+		                .multiway(charSpeed, {
+		                SPACE: -90,
+		                RIGHT_ARROW: 0,
+		                LEFT_ARROW: 180
+		            })
+		                .gravity("floor")
+		                .gravityConst(gravity)
+		                .teleport();
 
-                //portal creation
-                var yellowPortal = Crafty.e("2D, DOM, vertical_yellow, Portal")
-                    .attr({
-                    x: 10,
-                    y: 300,
-					z: 1
-                });
-                var bluePortal = Crafty.e("2D, DOM, vertical_blue, Portal")
-                    .attr({
-                    x: 500,
-                    y: 430,
-					z: 1
-                });
+		            //portal creation
+		            var yellowPortal = Crafty.e("2D, DOM, vertical_yellow, Portal")
+		                .attr({
+		                x: 10,
+		                y: 300,
+						z: 1
+		            });
+		            var bluePortal = Crafty.e("2D, DOM, vertical_blue, Portal")
+		                .attr({
+		                x: 500,
+		                y: 430,
+						z: 1
+		            });
 
-                var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
-                    .attr({
-                    x: 600,
-                    y: 200,
-                    z: 1
-                });
+		            var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
+		                .attr({
+		                x: 600,
+		                y: 200,
+		                z: 1
+		            });
 
-                var collisionParticle = Crafty.e("2D, ParticleCollision")
-                    .attr({
-                    x: 0,
-                    y: 0
-                });
+		            var collisionParticle = Crafty.e("2D, ParticleCollision")
+		                .attr({
+		                x: 0,
+		                y: 0
+		            });
 
-                var mouse = Crafty.e("2D, Mouse").attr({
-                    w: width,
-                    h: height
-                });
-                mouse.bind('Click', function (e) {
-                    var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
-                    var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates, bluePortal);
-                    bluePortal.attr({
-                        x: newPortalPosition.x,
-                        y: newPortalPosition.y
-                    });
-                    //alert(coordinates.x + ";" + coordinates.y);
-                });
+		            var mouse = Crafty.e("2D, Mouse").attr({
+		                w: width,
+		                h: height
+		            });
+		            mouse.bind('Click', function (e) {
+		                var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
+		                var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates, bluePortal);
+		                bluePortal.attr({
+		                    x: newPortalPosition.x,
+		                    y: newPortalPosition.y
+		                });
+		                //alert(coordinates.x + ";" + coordinates.y);
+		            });
 
-            }); // Closing levelOne scene
+		        }); // Closing levelOne scene
 
-            var intervalId;
-			var errorCounter = 0;
-			var errorTimes = 0;
+				var errorCounter = 0;
+				var errorTimes = 0;
 
-			function trigger(){
-				if(intervalId){
-					clearInterval(intervalId);
-				}
-	
-				intervalId = setInterval(function () {
-		            if (player1 != null) {
-						//console.log(errorCounter);
-
-		                update_info(users['user'], users['invite'], player1._x, player1._y, function(){
-							errorCounter++;
-
-							//console.log(errorCounter);
-
-							if(errorCounter == 100){
-								errorCounter = 0;	
-								errorTimes++;
-								alert("Looks like your connection is not that good, we are changing your fps to 20");
-								fps = 20;
-								trigger();	
+				setInterval(function(){
+					get_message(users['invite'], function(arg){
+						if (arg instanceof Array) {
+							for(var x = 0; x < arg.length; x++){
+								document.getElementById('chat').innerHTML += users['invite'] + ":" + arg[x] + "\n";
 							}
 
-							if(errorTimes == 5){
-								alert("Do you really thing that your computer/connection can handle this?");
-								errorTimes = 0;
-							}
-						});
+							document.getElementById('chat').scrollTop = 999999;
+						}
+					});
+				}, 1000);
 
-		                player2.tween({
-		                    x: x_player2,
-		                    y: y_player2
-		                }, 6);
-		            }
-		        }, 1000 / fps);
-			}
+		        Crafty.scene("loading");	
 
-            Crafty.scene("loading");	
-
-			window.onload = function(){
 				document.getElementById('fps').value = fps;
 				document.getElementById('val').innerHTML = fps;
 
+				document.getElementById('chat').style.width = width;
+				document.getElementById('chat').style.height = height / 4;
+				document.getElementById('chat').innerHTML = "";
+
+				document.getElementById('mes').style.width = width / 2;
+				document.getElementById('mes').focus();
+
 				trigger();
 			}
-	
+
 			function update_fps(){
 				fps = document.getElementById('fps').value;
 				document.getElementById('val').innerHTML = fps;
 
 				trigger();
 			}
+
+			function message(e){
+				if(event.keyCode == 13){
+					if(document.getElementById('mes').value.trim()){
+						document.getElementById('chat').innerHTML += users['user'] + ":" + document.getElementById('mes').value.trim() + "\n";
+						document.getElementById('chat').scrollTop = 999999;
+
+						send_message(users['user'], document.getElementById('mes').value.trim());
+
+						document.getElementById('mes').value = "";
+					}
+				}
+			}
+
+			function trigger(){
+				if(intervalId){
+					clearInterval(intervalId);
+				}
+
+				intervalId = setInterval(function () {
+			        if (player1 != null) {
+						//console.log(errorCounter);
+
+			            update_info(users['user'], users['invite'], player1._x, player1._y, function(){
+							if(!errorTimes){
+								errorCounter++;
+
+								//console.log(errorCounter);
+
+								if(errorCounter == 100){
+									errorCounter = 0;	
+									errorTimes++;
+									alert("Looks like your connection is not that good, we are changing your fps to 20");
+									fps = 20;
+									trigger();	
+								}
+
+								if(errorTimes == 2){
+									alert("Do you really thing that your computer/connection can handle this?");
+									errorTimes = 0;
+								}
+							}
+						});
+
+			            player2.tween({
+			                x: x_player2,
+			                y: y_player2
+			            }, 6);
+			        }
+			    }, 1000 / fps);
+			}
         </script>
-		<div style="height:200px;text-align:center;line-height:200px;">
+		<div id="cr-stage"></div>
+		<div style="px;text-align:center;line-height:80px;">
+			<textarea id="chat" readonly>
+			</textarea>
+		</div> 
+		<div style="px;text-align:center;line-height:80px;">
+			<input type="text" id="mes" class="textarea" onKeyUp="message()"> 
+		</div>
+		<div style="px;text-align:center;line-height:80px;">
 			fps (<span id="val"></span>): <input type="range" id="fps" onChange="update_fps()" min="10" max="60" style="width:300px;"/> 
-		</div>  
+		</div>
     </body>
 </html>
