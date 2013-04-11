@@ -1,5 +1,1 @@
-_ background image
-_ wall selection
-_ graphic bug walking
-_ untrap player when in wall
-_ 
+_ player through walls

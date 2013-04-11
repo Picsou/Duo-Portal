@@ -119,33 +119,24 @@
 		                        [102, 227],
 		                        [143, 230]
 		                    ])
-		                        .animate("still", 256, 151, 256)
+		                	.animate("still", 256, 151, 256)
 		                    //change direction when a direction change event is received
 		                    .bind("NewDirection", function (direction) {
 		                        if (direction.x < 0) {
 		                            if (!this.isPlaying("walk_left"))
-		                            //this.attr({ w: 49, h: 76});
 		                                this.stop().animate("walk_left", 20, -1);
 		                        }
 		                        if (direction.x > 0) {
 		                            if (!this.isPlaying("walk_right")) {
-		                                //this.attr({ w: 49, h: 76});
 		                                this.stop().animate("walk_right", 20, -1);
 		                            }
 		                        }
-		                        if (direction.y < 0) {
+		                        if (direction.y) {
 		                            if (!this.isPlaying("jump_up"))
-		                            //this.attr({ w: 42, h: 80});
 		                                this.stop().animate("jump_up", 20, 1);
 		                        }
-		                        if (direction.y > 0) {
-		                            if (this.isPlaying("jump_up"))
-		                            //this.attr({ w: 42, h: 80});
-		                                this.stop().animate("jump_down", 20, -1);
-		                        }
 		                        if (!direction.x && !direction.y) {
-		                            //this.attr({ w: 49, h: 76});
-		                            this.stop().animate("still", 1, -1);
+		                            this.stop().animate("still", 0, -1);
 		                        }
 		                    })
 		                    // A rudimentary way to prevent the user from passing solid areas
@@ -285,24 +276,13 @@
 
 		            /* Retrieving graphics from sprite sheets */
 
-		            Crafty.sprite("http://1.bp.blogspot.com/_PEZndt-fXCg/SagBaZQtv3I/AAAAAAAAAFg/4B5PCtEPEBE/s400/game+character+poses.jpg", {
-		                char: [115, 160, 50, 80]
-		            });
-
-		            Crafty.sprite("./images/main_char.png", {
-		                right: [560, 0, 90, 190],
-		                jump: [0, 0, 90, 170]
-
-		            });
-
 		            Crafty.sprite("./images/brick_wall.jpg", {
 		                verticalWall: [0, 0, 10, 300],
 		                horizontalWall: [0, 0, 100, 10]
 		            });
 
-		            Crafty.sprite("./images/portals.png", {
-		                bluePortal: [235, 135, 30, 70],
-		                yellowPortal: [268, 137, 30, 70]
+					Crafty.sprite("./images/wall_unit.png", {
+		                wall: [0, 0, 24, 24]
 		            });
 
 		            Crafty.sprite("./images/exit_door.png", {
@@ -326,18 +306,36 @@
 
 		            /* Entities declarations */
 
-		            var wall1 = Crafty.e("2D, DOM, solid, verticalWall, solid, vertical")
+					/* Build walls for left to right and bottom to top */
+					function buildWall(xWall, yWall, blocks, direction) {
+						var xIncrease;
+						var yIncrease;
+						if (direction == "horizontal") {
+							xIncrease = 24;
+							yIncrease = 0;
+						} else if (direction == "vertical") {
+							xIncrease = 0;
+							yIncrease = 24;
+						}
+						for (var i=0; i < blocks; i++) {
+							var wall = Crafty.e("2D, DOM, solid, wall, floor, " + direction)
+								.attr({
+								x: xWall + i * xIncrease,
+		                		y: yWall + i * yIncrease,
+		                		z: 1
+							});
+						}
+					}
+
+					buildWall(280,280,4,"vertical");
+					buildWall(500,420,8,"horizontal");
+
+		            var wall1 = Crafty.e("2D, DOM, solid, verticalWall, floor, vertical")
 		                .attr({
 		                x: 4 * width / 5,
 		                y: height - 300,
 		                z: 1
 		            });
-
-		            //        var wall2 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
-		            //       				.attr({ x: width / 4, y: height - 100, z: 1 });
-
-		            //        var wall3 = Crafty.e("2D, DOM, solid, horizontalWall, floor")
-		            //       				.attr({ x: width / 3, y: height - 200, z: 1 });
 
 		            var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
 		                .attr({
