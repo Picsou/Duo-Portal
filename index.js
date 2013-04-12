@@ -144,9 +144,6 @@ var sock = shoe(function (stream) {
 					portal_x[i] = portal_x1; 
 					portal_y[i] = portal_y1;
 
-
-					console.log(i, vertical1);
-
 					portal_vertical[i] = vertical1;
 
 					cb(); 

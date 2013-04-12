@@ -287,8 +287,8 @@
                                     portal.addComponent("horizontal_blue");
                                     this._lastComponent = "horizontal_blue";
                                 } else {
-                                    portal.addComponent("horizontal_yellow");
-                                    this._lastComponent = "horizontal_yellow";
+                                    portal.addComponent("horizontal_red");
+                                    this._lastComponent = "horizontal_red";
                                 }
                             }
                             if (dx > 0) {
@@ -349,7 +349,7 @@
                         vertical_blue: [0, 0, 41, 83],
                         vertical_red: [52, 0, 41, 83],
                         horizontal_blue: [8, 95, 83, 42],
-                        horizontal_yellow: [8, 147, 83, 42],
+                        horizontal_red: [8, 147, 83, 42],
                     });
 
                     /* Entities declarations */
@@ -435,14 +435,14 @@
                         .gravityConst(gravity)
                         .teleport();
 
-                    var yellowPortal = Crafty.e("2D, DOM, vertical_red, Portal")
+                    var yellowPortal = Crafty.e("2D, DOM, Portal")
                         .attr({
                         x: width + 100,
                         y: width + 100,
                         z: 1
                     });
 
-                    var bluePortal = Crafty.e("2D, DOM, vertical_blue, Portal")
+                    var bluePortal = Crafty.e("2D, DOM, Portal")
                         .attr({
                         x: width + 100,
                         y: width + 100,
@@ -574,14 +574,13 @@
                             y: y_portal2
                         });
 
-                        var portal2_state = (vertical_portal2 ? "horizontal" : "vertical") + "_" + other_player_color;
+                        var portal2_state = (vertical_portal2 ? "vertical" : "horizontal") + "_" + other_player_color;
 
 						if(portal2_last != portal2_state){
 							if(portal2_last){
-								other_portal.removeComponent(portal2_last);
+								other_portal.removeComponent(portal2_last, false);
 							}
 	
-							console.log(portal2_last + " " + portal2_state);
 							other_portal.addComponent(portal2_state);
 
 							portal2_last = portal2_state;
