@@ -82,7 +82,7 @@
             var errorTimes = 0;
 
              // Global variables
-            var width = 1240;
+            var width = 1245;
             var height = 600;
 
             function ready() {
@@ -377,8 +377,22 @@
                         }
                     }
 
-                    buildWall(280, 280, 4, "vertical");
-                    buildWall(500, 420, 8, "horizontal");
+                    function buildThickWall(x, height1, width1) {
+						for(i = 0; i < width1; i++){
+							buildWall((x * 24) + (i * 24), height - (height1 * 24), height1, "vertical");
+						}
+                    }
+
+					buildWall(0, 0, 20, "vertical");
+					buildWall(0, 0, 52, "horizontal");
+					buildWall(width - 24, 0, 20, "vertical");
+					buildWall(0, height - 24, 52, "horizontal");	
+
+					//first level
+                    buildThickWall(5, 20, 5);
+					buildThickWall(20, 15, 2);
+					buildThickWall(30, 15, 5);
+					buildThickWall(45, 15, 1);
 
                     var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
                         .attr({
@@ -456,8 +470,8 @@
 
                     var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
                         .attr({
-                        x: 600,
-                        y: 200,
+                        x: width - 45,
+                        y: height - 68,
                         z: 1
                     });
 
@@ -521,7 +535,7 @@
             }
 
             function message() {
-                if (event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 32) {
+                if (event.keyCode == 37 || event.keyCode == 39) {
                     event.preventDefault();
                     return false;
                 }
@@ -546,7 +560,7 @@
                 intervalId = setInterval(function () {
                     if (player1 != null) {
                         update_info(users['user'], users['invite'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), function () {
-                            if (!errorTimes) {
+                            /*if (!errorTimes) {
                                 errorCounter++;
 
                                 if (errorCounter == 100) {
@@ -561,7 +575,7 @@
                                     alert("Do you really thing that your computer/connection can handle this?");
                                     errorTimes = 0;
                                 }
-                            }
+                            }*/
                         });
 
                         //TODO: somehow test if the player moved, if not then dont call tween
