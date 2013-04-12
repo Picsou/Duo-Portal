@@ -39,15 +39,23 @@ domready(function(){
 		d.pipe(stream).pipe(d);
 	}
 
-	window.update_info = function(user, invite, x, y, error) {
+	window.update_info = function(user, invite, x, y, portal_x, portal_y, vertical1, error) {
+		console.log(vertical1);
+
 		var stream = shoe('/nick');
 		var d = dnode();
 
 		d.on('remote', function (remote) {
-			remote.set_xy(user, x, y, function () {
+			remote.set_xy(user, x, y, portal_x, portal_y, vertical1, function () {
 				remote.get_xy(invite, function(x2, y2){ 
 					x_player2 = x2;
 					y_player2 = y2;
+				});
+
+				remote.get_portal(invite, function(x2, y2, vertical2){ 
+					x_portal2 = x2;
+					y_portal2 = y2;
+					vertical_portal2 = vertical2;
 				});
 			});
 		});
