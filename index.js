@@ -13,6 +13,10 @@ var player_x = new Array();
 var player_y = new Array();
 
 var messages = new Array();
+var portal_x = new Array();
+var portal_y = new Array();
+
+var portal_vertical = new Array();
  
 var server = http.createServer(ecstatic);
 server.listen(80);
@@ -131,13 +135,21 @@ var sock = shoe(function (stream) {
 			cb();
         },
 
-		set_xy: function (id, x, y, cb) {
+		set_xy: function (id, x, y, portal_x1, portal_y1, vertical1, cb) {
 			for(var i = 0; i < playing.length; i++){
 				if(id == playing[i]){
 					player_x[i] = x;
 					player_y[i] = y;
 
-					cb();
+					portal_x[i] = portal_x1; 
+					portal_y[i] = portal_y1;
+
+
+					console.log(i, vertical1);
+
+					portal_vertical[i] = vertical1;
+
+					cb(); 
 
 					return;
 				}
@@ -150,6 +162,16 @@ var sock = shoe(function (stream) {
 			for(var x = 0; x < playing.length; x++){
 				if(id == playing[x]){
 					cb(player_x[x], player_y[x]);
+					
+					return;
+				}
+			}
+        },
+
+		get_portal: function (id, cb) {
+			for(var x = 0; x < playing.length; x++){
+				if(id == playing[x]){
+					cb(portal_x[x], portal_y[x], portal_vertical[x]);
 					
 					return;
 				}

@@ -46,15 +46,43 @@
                 return query_string;
             };
 
+			String.prototype.hashCode = function(){
+				var hash = 0, i, char;
+
+				if(this.length == 0){
+					return hash;
+				}
+
+				for(i = 0; i < this.length; i++){
+					char = this.charCodeAt(i);
+					hash = ((hash << 5) - hash) + char;
+					hash = hash & hash; // Convert to 32bit integer
+				}
+
+				return hash;
+			};
+
 			var intervalId;
 			var users = QueryString();
 	        var fps = 20;
 	        var player2 = null;
 	        var player1 = null;
+			var portal = null;
+
+			var x_player2;
+			var y_player2;
+			var x_portal2;
+			var y_portal2;
+
+			var vertical_portal2 = "";
+			var portal2_last;
+
+			var errorCounter = 0;
+			var errorTimes = 0;
 
 	         // Global variables
-	        var width = 1000;
-       	 	var height = 300;
+	        var width = 1240;
+       	 	var height = 600;
 
 			function ready(){
 		        charSpeed = 6;
@@ -168,31 +196,31 @@
 		                }
 		            });
 
-		            // Teleportation
-
 		            Crafty.c("Teleport", {
 		                _justTraversed: false,
 
 		                teleport: function () {
-		                    this.requires("Collision")
-		                        .onHit("Portal", function (target) {
-		                        if (this._justTraversed == false) {
-		                            this._justTraversed = true;
-		                            if (target[0].obj == yellowPortal) {
-		                                this.attr({
-		                                    x: bluePortal.x,
-		                                    y: bluePortal.y
-		                                });
-		                            } else if (target[0].obj == bluePortal) {
-		                                this.attr({
-		                                    x: yellowPortal.x,
-		                                    y: yellowPortal.y
-		                                });
-		                            }
-		                        }
+		                    this.requires("Collision").onHit("Portal", function (target) {
+								if(bluePortal.x <= width && yellowPortal.x <= width){
+				                    if (this._justTraversed == false) {
+				                        this._justTraversed = true;
+				                        if (target[0].obj == yellowPortal) {
+				                            this.attr({
+				                                x: bluePortal.x,
+				                                y: bluePortal.y
+				                            });
+				                        } else if (target[0].obj == bluePortal) {
+				                            this.attr({
+				                                x: yellowPortal.x,
+				                                y: yellowPortal.y
+				                            });
+				                        }
+				                    }
+								}
 		                    }, function (target) {
 		                        this._justTraversed = false;
 		                    });
+
 		                    return this;
 		                }
 		            });
@@ -205,6 +233,7 @@
 		            Crafty.c("ParticleCollision", {
 		                _collisionStep: 1,
 		                _particuleSize: 5,
+						_lastComponent: "",
 
 		                detectCollision: function (playerPosition, mouseCoordinates, portal) {
 		                    this.attr({
@@ -218,7 +247,7 @@
 		                    var dy = mouseCoordinates.y - playerPosition.y;
 		                    var alpha = dy / dx;
 		                    var i = 0;
-		                    while (this.hit('solid') == false && i < 1000) {
+		                    while (this.hit('solid') == false && i < width) {
 		                        if (dx > 0) {
 		                            this.attr({
 		                                x: this._x + this._collisionStep,
@@ -233,18 +262,27 @@
 		                        i = i + 1;
 		                        //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
 		                    }
+		
+							if(this._lastComponent){
+								portal.removeComponent(this._lastComponent);
+							}
+
 							if (this.hit('vertical')) {
 								if (portal == bluePortal) {
 									portal.addComponent("vertical_blue");
+									this._lastComponent = "vertical_blue";
 								} else {
-									portal.addComponent("vertical_yellow");
+									portal.addComponent("vertical_red");
+									this._lastComponent = "vertical_red";
 								}
 							}
 							else {
 								if (portal == bluePortal) {
 									portal.addComponent("horizontal_blue");
+									this._lastComponent = "horizontal_blue";
 								} else {
 									portal.addComponent("horizontal_yellow");
+									this._lastComponent = "horizontal_yellow";
 								}
 							}
 		                    if (dx > 0) {
@@ -319,7 +357,7 @@
 
 		            Crafty.sprite("./images/sprite_portals_resized.png", {
 		                vertical_blue: [0, 0, 41, 83],
-		                vertical_yellow: [52, 0, 41, 83],
+		                vertical_red: [52, 0, 41, 83],
 						horizontal_blue: [8, 95, 83, 42],
 						horizontal_yellow: [8, 147, 83, 42],
 		            });
@@ -368,25 +406,22 @@
 		                h: height
 		            });
 
-		            //player2 = Crafty.e("2D, DOM, Multiway, char, Tween")
-		            //    .attr({
-		            //    x: 100,
-		            //    y: 100,
-		            //    z: 1
-		            //});
-		            //.multiway(3, { UP_ARROW: -90, DOWN_ARROW: 90, RIGHT_ARROW: 0, LEFT_ARROW: 180 });
+					smaller = users['user'].hashCode() > users['invite'].hashCode() ? users['invite'] : users['user'];
 
-					player2 = Crafty.e("2D, DOM, Multiway, still_red, Tween")
+					player_color = smaller == users['user'] ? 'blue' : 'red';
+					other_player_color = smaller != users['user'] ? 'blue' : 'red';
+			
+					player2 = Crafty.e("2D, DOM, Multiway, Tween, still_" + other_player_color)
 		                .attr({
-		                x: 200,
-		                y: 80,
+		                x: 10,
+		                y: height - 10,
 		                z: 1
 		            });
 
-		            player1 = Crafty.e("2D, DOM, Ape, Multiway, still_blue, Gravity, Teleport, LevelUp")
+		            player1 = Crafty.e("2D, DOM, Ape, Multiway, Gravity, Teleport, LevelUp, still_" + player_color)
 		                .attr({
-		                x: 200,
-		                y: 80,
+		                x: 10,
+		                y: height - 10,
 		                z: 1
 		            })
 		                .Ape()
@@ -399,19 +434,22 @@
 		                .gravityConst(gravity)
 		                .teleport();
 
-		            //portal creation
-		            var yellowPortal = Crafty.e("2D, DOM, vertical_yellow, Portal")
+		            var yellowPortal = Crafty.e("2D, DOM, vertical_red, Portal")
 		                .attr({
-		                x: 10,
-		                y: 300,
+		                x: width + 100,
+		                y: width + 100,
 						z: 1
 		            });
+
 		            var bluePortal = Crafty.e("2D, DOM, vertical_blue, Portal")
 		                .attr({
-		                x: 500,
-		                y: 430,
+		                x: width + 100,
+		                y: width + 100,
 						z: 1
 		            });
+
+					portal = smaller == users['user'] ? bluePortal : yellowPortal;
+					other_portal = smaller == users['user'] ? yellowPortal : bluePortal;
 
 		            var exitDoor = Crafty.e("2D, DOM, exitDoor, Exit")
 		                .attr({
@@ -430,20 +468,20 @@
 		                w: width,
 		                h: height
 		            });
+
 		            mouse.bind('Click', function (e) {
+						document.getElementById('mes').focus();
+
 		                var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
-		                var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates, bluePortal);
-		                bluePortal.attr({
+		                var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates, portal);
+
+		                portal.attr({
 		                    x: newPortalPosition.x,
 		                    y: newPortalPosition.y
 		                });
-		                //alert(coordinates.x + ";" + coordinates.y);
 		            });
 
 		        }); // Closing levelOne scene
-
-				var errorCounter = 0;
-				var errorTimes = 0;
 
 				setInterval(function(){
 					get_message(users['invite'], function(arg){
@@ -463,7 +501,7 @@
 				document.getElementById('val').innerHTML = fps;
 
 				document.getElementById('chat').style.width = width;
-				document.getElementById('chat').style.height = height / 4;
+				document.getElementById('chat').style.height = height / 4.5;
 				document.getElementById('chat').innerHTML = "";
 
 				document.getElementById('mes').style.width = width / 2;
@@ -479,7 +517,12 @@
 				trigger();
 			}
 
-			function message(e){
+			function message(){
+				if(event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 32){
+					event.preventDefault();
+					return false;
+				}
+	
 				if(event.keyCode == 13){
 					if(document.getElementById('mes').value.trim()){
 						document.getElementById('chat').innerHTML += users['user'] + ":" + document.getElementById('mes').value.trim() + "\n";
@@ -499,13 +542,9 @@
 
 				intervalId = setInterval(function () {
 			        if (player1 != null) {
-						//console.log(errorCounter);
-
-			            update_info(users['user'], users['invite'], player1._x, player1._y, function(){
+			            update_info(users['user'], users['invite'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), function(){
 							if(!errorTimes){
 								errorCounter++;
-
-								//console.log(errorCounter);
 
 								if(errorCounter == 100){
 									errorCounter = 0;	
@@ -515,17 +554,37 @@
 									trigger();	
 								}
 
-								if(errorTimes == 2){
+								if(errorTimes == 1){
 									alert("Do you really thing that your computer/connection can handle this?");
 									errorTimes = 0;
 								}
 							}
 						});
 
+						//TODO: somehow test if the player moved, if not then dont call tween
 			            player2.tween({
 			                x: x_player2,
 			                y: y_player2
 			            }, 6);
+	
+						//TODO: same here
+						other_portal.attr({
+							x: x_portal2,
+							y: y_portal2 
+						});
+
+						var portal2_state = (vertical_portal2 ? "vertical" : "horizontal") + "_" + other_player_color;
+
+						if(portal2_last != portal2_state){
+							//other_portal.removeComponent("vertical_" + other_player_color);
+							//other_portal.removeComponent("horizontal_" + other_player_color);
+							other_portal.removeComponent(portal2_last);
+
+							console.log(portal2_last, portal2_state);
+							other_portal.addComponent(portal2_state);
+
+							portal2_last = portal2_state;
+						}
 			        }
 			    }, 1000 / fps);
 			}
@@ -536,7 +595,7 @@
 			</textarea>
 		</div> 
 		<div style="px;text-align:center;line-height:80px;">
-			<input type="text" id="mes" class="textarea" onKeyUp="message()"> 
+			<input type="text" id="mes" class="textarea" onKeyDown="message()"> 
 		</div>
 		<div style="px;text-align:center;line-height:80px;">
 			fps (<span id="val"></span>): <input type="range" id="fps" onChange="update_fps()" min="10" max="60" style="width:300px;"/> 
