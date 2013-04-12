@@ -171,18 +171,20 @@
                             // A rudimentary way to prevent the user from passing solid areas
                             .bind('Moved', function (from) {
                                 if (this.hit('solid') && !this._potentiallyInWall) {
-									if (portal._direction == "vertical" && (x - from.x) * portal._value > 0) {
+                                    this.attr({
+                                        x: from.x,
+                                        y: from.y
+                                    });
+                                } else if (this.hit('solid') && this._potentiallyInWall) {
+									console.log("hello");
+									if ((portal._direction == "vertical" && (this._x - from.x) * portal._value > 0) || (portal._direction == "horizontal" && (this._y - from.y) * portal._value > 0) || (other_portal._direction == "vertical" && (this._x - from.x) * other_portal._value > 0) || (other_portal._direction == "horizontal" && (this._y - from.y) * other_portal._value > 0)) {
+										console.log("SECOND IF");
 										this.attr({
                                         	x: from.x,
                                         	y: from.y
                                     	});
 									}
-
-                                    this.attr({
-                                        x: from.x,
-                                        y: from.y
-                                    });
-                                }
+								}
                                 if (!this.hit('solid')) {
                                     this._potentiallyInWall = false;
                                 }
@@ -226,7 +228,7 @@
 
                     Crafty.c("Portal", {
 						_direction: "",
-						_value: 0,
+						_value: 0
 					});
 
                     Crafty.c("vertical", {});
@@ -238,7 +240,7 @@
                         _particuleSize: 5,
                         _lastComponent: "",
 
-                        detectCollision: function (playerPosition, mouseCoordinates, portal) {
+                        detectCollision: function (playerPosition, mouseCoordinates, portalCollision) {
                             this.attr({
                                 x: playerPosition.x,
                                 y: playerPosition.y,
@@ -267,46 +269,46 @@
                             }
 
                             if (this._lastComponent) {
-                                portal.removeComponent(this._lastComponent);
+                                portalCollision.removeComponent(this._lastComponent);
                             }
 
                             if (this.hit('vertical')) {
-								portal._value = dx;
-								portal._direction = "vertical";
-                                if (portal == bluePortal) {
-                                    portal.addComponent("vertical_blue");
+								portalCollision._value = dx;
+								portalCollision._direction = "vertical";
+                                if (portalCollision == bluePortal) {
+                                    portalCollision.addComponent("vertical_blue");
                                     this._lastComponent = "vertical_blue";
                                 } else {
-                                    portal.addComponent("vertical_red");
+                                    portalCollision.addComponent("vertical_red");
                                     this._lastComponent = "vertical_red";
                                 }
                             } else {
-								portal._value = dy;
-								portal._direction = "horizontal";
+								portalCollision._value = dy;
+								portalCollision._direction = "horizontal";
                                 if (portal == bluePortal) {
-                                    portal.addComponent("horizontal_blue");
+                                    portalCollision.addComponent("horizontal_blue");
                                     this._lastComponent = "horizontal_blue";
                                 } else {
-                                    portal.addComponent("horizontal_red");
+                                    portalCollision.addComponent("horizontal_red");
                                     this._lastComponent = "horizontal_red";
                                 }
                             }
                             if (dx > 0) {
                                 this.attr({
-                                    x: this._x - portal._w / 2 + this._particuleSize
+                                    x: this._x - portalCollision._w / 2 + this._particuleSize
                                 });
                             } else {
                                 this.attr({
-                                    x: this._x - portal._w / 2
+                                    x: this._x - portalCollision._w / 2
                                 });
                             }
                             if (dy > 0) {
                                 this.attr({
-                                    y: this._y - portal._h / 2 + this._particuleSize
+                                    y: this._y - portalCollision._h / 2 + this._particuleSize
                                 });
                             } else {
                                 this.attr({
-                                    y: this._y - portal._h / 2
+                                    y: this._y - portalCollision._h / 2
                                 });
                             }
                             return this.attr();
