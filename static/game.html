@@ -171,6 +171,13 @@
                             // A rudimentary way to prevent the user from passing solid areas
                             .bind('Moved', function (from) {
                                 if (this.hit('solid') && !this._potentiallyInWall) {
+									if (portal._direction == "vertical" && (x - from.x) * portal._value > 0) {
+										this.attr({
+                                        	x: from.x,
+                                        	y: from.y
+                                    	});
+									}
+
                                     this.attr({
                                         x: from.x,
                                         y: from.y
@@ -217,7 +224,11 @@
                         }
                     });
 
-                    Crafty.c("Portal", {});
+                    Crafty.c("Portal", {
+						_direction: "",
+						_value: 0,
+					});
+
                     Crafty.c("vertical", {});
                     Crafty.c("horizontal", {});
 
@@ -260,6 +271,8 @@
                             }
 
                             if (this.hit('vertical')) {
+								portal._value = dx;
+								portal._direction = "vertical";
                                 if (portal == bluePortal) {
                                     portal.addComponent("vertical_blue");
                                     this._lastComponent = "vertical_blue";
@@ -268,6 +281,8 @@
                                     this._lastComponent = "vertical_red";
                                 }
                             } else {
+								portal._value = dy;
+								portal._direction = "horizontal";
                                 if (portal == bluePortal) {
                                     portal.addComponent("horizontal_blue");
                                     this._lastComponent = "horizontal_blue";
@@ -313,11 +328,6 @@
                     Crafty.c("Exit", {});
 
                     /* Retrieving graphics from sprite sheets */
-
-                    Crafty.sprite("./images/brick_wall.jpg", {
-                        verticalWall: [0, 0, 10, 300],
-                        horizontalWall: [0, 0, 100, 10]
-                    });
 
                     Crafty.sprite("./images/wall_unit.png", {
                         wall: [0, 0, 24, 24]
@@ -367,13 +377,6 @@
 
                     buildWall(280, 280, 4, "vertical");
                     buildWall(500, 420, 8, "horizontal");
-
-                    var wall1 = Crafty.e("2D, DOM, solid, verticalWall, floor, vertical")
-                        .attr({
-                        x: 4 * width / 5,
-                        y: height - 300,
-                        z: 1
-                    });
 
                     var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
                         .attr({
