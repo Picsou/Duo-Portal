@@ -573,14 +573,14 @@
 							y: y_portal2 
 						});
 
-						var portal2_state = (vertical_portal2 ? "vertical" : "horizontal") + "_" + other_player_color;
+						var portal2_state = (vertical_portal2 ? "horizontal" : "vertical") + "_" + other_player_color;
 
 						if(portal2_last != portal2_state){
-							//other_portal.removeComponent("vertical_" + other_player_color);
-							//other_portal.removeComponent("horizontal_" + other_player_color);
-							other_portal.removeComponent(portal2_last);
-
-							console.log(portal2_last, portal2_state);
+							if(portal2_last){
+								other_portal.removeComponent(portal2_last);
+							}
+	
+							console.log(portal2_last + " " + portal2_state);
 							other_portal.addComponent(portal2_state);
 
 							portal2_last = portal2_state;
