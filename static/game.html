@@ -177,13 +177,13 @@
                                     });
                                 } else if (this.hit('solid') && this._potentiallyInWall) {
 									console.log("hello");
-									if ((portal._direction == "vertical" && (this._x - from.x) * portal._value > 0) || (portal._direction == "horizontal" && (this._y - from.y) * portal._value > 0) || (other_portal._direction == "vertical" && (this._x - from.x) * other_portal._value > 0) || (other_portal._direction == "horizontal" && (this._y - from.y) * other_portal._value > 0)) {
-										console.log("SECOND IF");
-										this.attr({
-                                        	x: from.x,
-                                        	y: from.y
-                                    	});
-									}
+									//if ((portal._direction == "vertical" && (this._x - from.x) * portal._value > 0) || (portal._direction == "horizontal" && (this._y - from.y) * portal._value > 0) || (other_portal._direction == "vertical" && (this._x - from.x) * other_portal._value > 0) || (other_portal._direction == "horizontal" && (this._y - from.y) * other_portal._value > 0)) {
+									//	console.log("SECOND IF");
+									//	this.attr({
+                                    //    	x: from.x,
+                                    //    	y: from.y
+                                    //	});
+									//}
 								}
                                 if (!this.hit('solid')) {
                                     this._potentiallyInWall = false;
@@ -205,17 +205,39 @@
                                 if (bluePortal.x <= width && yellowPortal.x <= width) {
                                     if (this._justTraversed == false) {
                                         this._justTraversed = true;
-                                        if (target[0].obj == yellowPortal) {
-                                            this.attr({
-                                                x: bluePortal.x,
-                                                y: bluePortal.y
-                                            });
-                                        } else if (target[0].obj == bluePortal) {
-                                            this.attr({
-                                                x: yellowPortal.x,
-                                                y: yellowPortal.y
-                                            });
-                                        }
+
+										var destinationPortal;
+										if (target[0].obj == bluePortal) {
+											destinationPortal = yellowPortal;
+										} else if (target[0].obj == yellowPortal) {
+											destinationPortal = bluePortal;
+										}
+
+										if (destinationPortal._direction == "horizontal") {
+											if (destinationPortal._value > 0) {
+												this.attr({
+                                                	x: destinationPortal.x,
+                                                	y: destinationPortal.y - destinationPortal.h
+                                            	});
+											} else {
+												this.attr({
+                                                	x: destinationPortal.x,
+                                               		y: destinationPortal.y + destinationPortal.h
+                                            	});
+											}
+										} else {
+											if (destinationPortal._value > 0) {
+												this.attr({
+                                              		x: destinationPortal.x - destinationPortal.w,
+                                               		y: destinationPortal.y
+                                           		});
+											} else {
+												this.attr({
+                                               		x: destinationPortal.x + destinationPortal.w,
+                                               		y: destinationPortal.y
+                                            	});
+											}
+										}
                                     }
                                 }
                             }, function (target) {
@@ -267,6 +289,9 @@
                                 i = i + 1;
                                 //alert(this.hit('solid') + "      ->       " + i + " : " + this._x + " : " + this._y);
                             }
+							if (!this.hit('active_wall')) {
+                            	return null;
+							}
 
                             if (this._lastComponent) {
                                 portalCollision.removeComponent(this._lastComponent);
@@ -313,8 +338,6 @@
                             }
                             return this.attr();
                         }
-
-
                     });
 
                     /* Entering the exit door allows you to proceed to the next level */
@@ -331,8 +354,12 @@
 
                     /* Retrieving graphics from sprite sheets */
 
-                    Crafty.sprite("./images/wall_unit.png", {
-                        wall: [0, 0, 24, 24]
+                    Crafty.sprite("./images/active_wall_unit.png", {
+                        active_wall: [0, 0, 24, 24]
+                    });
+
+					Crafty.sprite("./images/inactive_wall_unit.png", {
+                        inactive_wall: [0, 0, 24, 24]
                     });
 
                     Crafty.sprite("./images/exit_door.png", {
@@ -357,7 +384,7 @@
                     /* Entities declarations */
 
                     /* Build walls for left to right and bottom to top */
-                    function buildWall(xWall, yWall, blocks, direction) {
+                    function buildWall(xWall, yWall, blocks, direction, wallType) {
                         var xIncrease;
                         var yIncrease;
                         if (direction == "horizontal") {
@@ -368,7 +395,7 @@
                             yIncrease = 24;
                         }
                         for (var i = 0; i < blocks; i++) {
-                            var wall = Crafty.e("2D, DOM, solid, wall, floor, " + direction)
+                            var wall = Crafty.e("2D, DOM, solid, floor, " + direction + ", " + wallType)
                                 .attr({
                                 x: xWall + i * xIncrease,
                                 y: yWall + i * yIncrease,
@@ -377,22 +404,22 @@
                         }
                     }
 
-                    function buildThickWall(x, height1, width1) {
+                    function buildThickWall(x, height1, width1, wallType) {
 						for(i = 0; i < width1; i++){
-							buildWall((x * 24) + (i * 24), height - (height1 * 24), height1, "vertical");
+							buildWall((x * 24) + (i * 24), height - (height1 * 24), height1, "vertical", wallType);
 						}
                     }
 
-					buildWall(0, 0, 20, "vertical");
-					buildWall(0, 0, 52, "horizontal");
-					buildWall(width - 24, 0, 20, "vertical");
-					buildWall(0, height - 24, 52, "horizontal");	
+					buildWall(0, 0, 20, "vertical", "active_wall");
+					buildWall(0, 0, 52, "horizontal", "active_wall");
+					buildWall(width - 24, 0, 20, "vertical", "active_wall");
+					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
 
 					//first level
-                    buildThickWall(5, 20, 5);
-					buildThickWall(20, 15, 2);
-					buildThickWall(30, 15, 5);
-					buildThickWall(45, 15, 1);
+                    buildThickWall(5, 20, 5, "inactive_wall");
+					buildThickWall(20, 15, 2, "inactive_wall");
+					buildThickWall(30, 15, 5, "inactive_wall");
+					buildThickWall(45, 15, 1, "inactive_wall");
 
                     var floor = Crafty.e("2D, DOM, floor, solid, horizontal")
                         .attr({
@@ -491,11 +518,12 @@
 
                         var coordinates = Crafty.DOM.translate(e.clientX, e.clientY);
                         var newPortalPosition = collisionParticle.detectCollision(player1.attr(), coordinates, portal);
-
-                        portal.attr({
-                            x: newPortalPosition.x,
-                            y: newPortalPosition.y
-                        });
+						if (newPortalPosition != null) {
+                        	portal.attr({
+                            	x: newPortalPosition.x,
+                            	y: newPortalPosition.y
+                        	});
+						}
                     });
 
                 }); // Closing levelOne scene
