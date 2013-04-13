@@ -578,15 +578,17 @@ console.log("Here HORIZONTAL");
                 }); // Closing levelOne scene
 
                 setInterval(function () {
-                    remote.get_message(users['invite'], function (arg) {
-                        if (arg instanceof Array) {
-                            for (var x = 0; x < arg.length; x++) {
-                                document.getElementById('chat').innerHTML += users['invite'] + ":" + arg[x] + "\n";
-                            }
+					if(window.remote){					
+		                remote.get_message(users['invite'], function (arg) {
+		                    if (arg instanceof Array) {
+		                        for (var x = 0; x < arg.length; x++) {
+		                            document.getElementById('chat').innerHTML += users['invite'] + ":" + arg[x] + "\n";
+		                        }
 
-                            document.getElementById('chat').scrollTop = 999999;
-                        }
-                    });
+		                        document.getElementById('chat').scrollTop = 999999;
+		                    }
+		                });
+					}
                 }, 1000);
 
                 Crafty.scene("loading");
