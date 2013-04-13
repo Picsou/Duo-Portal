@@ -85,6 +85,44 @@
             var width = 1245;
             var height = 600;
 
+			function trigger() {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
+
+                intervalId = setInterval(function () {
+                    if (player1 != null && window.remote) {
+						remote.set_xy(users['user'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), function () {
+							remote.get_xy(users['invite'], function(x2, y2){ 
+								player2.tween({
+				                    x: x2,
+				                    y: y2
+				                }, 6);
+							});
+
+							remote.get_portal(users['invite'], function(x2, y2, vertical2){ 
+								other_portal.attr({
+				                    x: x2,
+				                    y: y2
+				                });
+
+								var portal2_state = (vertical2 ? "vertical" : "horizontal") + "_" + other_player_color;
+
+								if(portal2_last != portal2_state){
+									if(portal2_last){
+										other_portal.removeComponent(portal2_last, false);
+									}
+	
+									other_portal.addComponent(portal2_state);
+
+									portal2_last = portal2_state;
+								}
+							});
+						});
+                    }
+                }, 1000 / fps);
+            }
+
             function ready() {
                 charSpeed = 6;
                 gravity = 0.3;
@@ -176,7 +214,6 @@
                                         y: from.y
                                     });
                                 } else if (this.hit('solid') && this._potentiallyInWall) {
-									console.log("hello");
 									//if ((portal._direction == "vertical" && (this._x - from.x) * portal._value > 0) || (portal._direction == "horizontal" && (this._y - from.y) * portal._value > 0) || (other_portal._direction == "vertical" && (this._x - from.x) * other_portal._value > 0) || (other_portal._direction == "horizontal" && (this._y - from.y) * other_portal._value > 0)) {
 									//	console.log("SECOND IF");
 									//	this.attr({
@@ -529,7 +566,7 @@
                 }); // Closing levelOne scene
 
                 setInterval(function () {
-                    get_message(users['invite'], function (arg) {
+                    remote.get_message(users['invite'], function (arg) {
                         if (arg instanceof Array) {
                             for (var x = 0; x < arg.length; x++) {
                                 document.getElementById('chat').innerHTML += users['invite'] + ":" + arg[x] + "\n";
@@ -579,60 +616,6 @@
                     }
                 }
             }
-
-            function trigger() {
-                if (intervalId) {
-                    clearInterval(intervalId);
-                }
-
-                intervalId = setInterval(function () {
-                    if (player1 != null) {
-                        update_info(users['user'], users['invite'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), function () {
-                            /*if (!errorTimes) {
-                                errorCounter++;
-
-                                if (errorCounter == 100) {
-                                    errorCounter = 0;
-                                    errorTimes++;
-                                    alert("Looks like your connection is not that good, we are changing your fps to 20");
-                                    fps = 20;
-                                    trigger();
-                                }
-
-                                if (errorTimes == 1) {
-                                    alert("Do you really thing that your computer/connection can handle this?");
-                                    errorTimes = 0;
-                                }
-                            }*/
-                        });
-
-                        //TODO: somehow test if the player moved, if not then dont call tween
-                        player2.tween({
-                            x: x_player2,
-                            y: y_player2
-                        }, 6);
-
-                        //TODO: same here
-                        other_portal.attr({
-                            x: x_portal2,
-                            y: y_portal2
-                        });
-
-                        var portal2_state = (vertical_portal2 ? "vertical" : "horizontal") + "_" + other_player_color;
-
-						if(portal2_last != portal2_state){
-							if(portal2_last){
-								other_portal.removeComponent(portal2_last, false);
-							}
-	
-							other_portal.addComponent(portal2_state);
-
-							portal2_last = portal2_state;
-						}
-                    }
-                }, 1000 / fps);
-            }
-
         </script>
         <div id="cr-stage"></div>
         <div style="px;text-align:center;line-height:80px;">

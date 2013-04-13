@@ -100,10 +100,10 @@
 
 		function update_list_players(){
 			if(player_name || $("#nick").val()){
-				confirm_nick(player_name ? player_name : $("#nick").val());
+				remote.confirm_nick(player_name ? player_name : $("#nick").val());
 			}			
 
-			get_nick(function(parm, inviting){
+			remote.get_nick(function(parm, inviting){
 				$("#list_players option").each(function(){
 					if(!in_array($(this).html(), parm)){
 						$(this).remove();
@@ -154,13 +154,12 @@
 
 						player_name = $("#nick").val();
 
-						set_nick(player_name, function(result){
+						remote.set_nick(player_name, function(result){
 							if(result == false){
 								alert("Nick already taken, please choose another");
 								$("#nick").focus();
 							}
 							else{
-								console.log(result);
 								$("#welcome").html("Welcome " + $("#nick").val());
 								$("#nick_div").trigger('reveal:close');
 							}
@@ -171,13 +170,13 @@
 				});
 
 				$("#yes").click(function(){
-					play(player_name, second_player, function(){
+					remote.play(player_name, second_player, function(){
 						window.location.href = "game.html?user=" + player_name + "&invite=" + second_player;
 					});
 				});
 
 				$("#no").click(function(){
-					refuse_invite(player_name, function(){
+					remote.refuse_invite(player_name, function(){
 						$("#play_div").trigger('reveal:close');
 					});
 				});
@@ -194,12 +193,12 @@
 						$("#invite_div_header").html("Inviting " + other_player);
 						$("#invite_div").reveal();
 
-						invite(player_name, other_player, function(){
+						remote.invite(player_name, other_player, function(){
 
 						});
 
 						var refreshIntervalId = setInterval(function(){
-							confirm_invite(player_name, other_player, function(){
+							remote.confirm_invite(player_name, other_player, function(){
 								window.location.href = "game.html?user=" + player_name + "&invite=" + other_player;		
 							}, function(arg){
 								if(!arg){
