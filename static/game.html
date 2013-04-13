@@ -107,13 +107,13 @@
 				                    y: y2
 				                });
 
-								var portal2_state = (vertical2 ? "vertical" : "horizontal") + "_" + other_player_color;
+								var portal2_state = (vertical2 ? "vertical" : "horizontal");// + "_" + other_player_color;
 
 								if(portal2_last != portal2_state){
 									if(portal2_last){
 										other_portal.removeComponent(portal2_last, false);
 									}
-	
+
 									other_portal.addComponent(portal2_state);
 
 									portal2_last = portal2_state;
@@ -456,9 +456,9 @@ console.log("Here HORIZONTAL");
 					buildWall(width - 24, 0, 20, "vertical", "active_wall");
 					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
 
-                    buildThickWall(5, 20, 5, "inactive_wall");
-					buildThickWall(20, 15, 2, "active_wall");
-					buildThickWall(30, 15, 5, "inactive_wall");
+                    //buildThickWall(5, 20, 5, "inactive_wall");
+					//buildThickWall(20, 15, 2, "active_wall");
+					//buildThickWall(30, 15, 5, "inactive_wall");
 					buildThickWall(45, 15, 1, "inactive_wall");
 
 					/* Frame for the player not to go out of the visible world */
@@ -499,14 +499,14 @@ console.log("Here HORIZONTAL");
                     player2 = Crafty.e("2D, DOM, Multiway, Tween, still_" + other_player_color)
                         .attr({
                         x: 10,
-                        y: height - 10,
+                        y: height - 100,
                         z: 1
                     });
 
                     player1 = Crafty.e("2D, DOM, Ape, Multiway, Gravity, Teleport, LevelUp, still_" + player_color)
                         .attr({
                         x: 10,
-                        y: height - 10,
+                        y: height - 100,
                         z: 1
                     })
                         .Ape()
