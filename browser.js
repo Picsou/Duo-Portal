@@ -40,7 +40,6 @@ domready(function(){
 	}
 
 	window.update_info = function(user, invite, x, y, portal_x, portal_y, vertical1, error) {
-		console.log(vertical1);
 
 		var stream = shoe('/nick');
 		var d = dnode();
