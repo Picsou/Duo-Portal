@@ -77,6 +77,7 @@
 
             var vertical_portal2 = "";
             var portal2_last;
+			var portalDirectionLast;
 
             var errorCounter = 0;
             var errorTimes = 0;
@@ -251,6 +252,7 @@
 										}
 
 										if (destinationPortal._direction == "horizontal") {
+											console.log("hori");
 											if (destinationPortal._value > 0) {
 												this.attr({
                                                 	x: destinationPortal.x,
@@ -262,7 +264,8 @@
                                                		y: destinationPortal.y + destinationPortal.h
                                             	});
 											}
-										} else {
+										} else if (destinationPortal._direction == "vertical") {
+											console.log("vert");
 											if (destinationPortal._value > 0) {
 												this.attr({
                                               		x: destinationPortal.x - destinationPortal.w,
@@ -335,6 +338,7 @@
                             }
 
                             if (this.hit('vertical')) {
+console.log("Here VERT");
 								portalCollision._value = dx;
 								portalCollision._direction = "vertical";
                                 if (portalCollision == bluePortal) {
@@ -344,7 +348,8 @@
                                     portalCollision.addComponent("vertical_red");
                                     this._lastComponent = "vertical_red";
                                 }
-                            } else {
+                            } else if (this.hit('horizontal')) {
+console.log("Here HORIZONTAL");
 								portalCollision._value = dy;
 								portalCollision._direction = "horizontal";
                                 if (portal == bluePortal) {
@@ -452,9 +457,9 @@
 					buildWall(width - 24, 0, 20, "vertical", "active_wall");
 					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
 
-					//first level
+					first level
                     buildThickWall(5, 20, 5, "inactive_wall");
-					buildThickWall(20, 15, 2, "inactive_wall");
+					buildThickWall(20, 15, 2, "active_wall");
 					buildThickWall(30, 15, 5, "inactive_wall");
 					buildThickWall(45, 15, 1, "inactive_wall");
 
@@ -616,6 +621,7 @@
                     }
                 }
             }
+
         </script>
         <div id="cr-stage"></div>
         <div style="px;text-align:center;line-height:80px;">
