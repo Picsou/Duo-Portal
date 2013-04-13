@@ -205,35 +205,7 @@ var sock = shoe(function (stream) {
 					return;
 				}
 			}
-        },
-
-		/*register_callback: function (cb, fps, result, invite, id){
-			clearInterval(id);
-
-			var player;
-
-			for(var x = 0; x < playing.length; x++){
-				if(invite == playing[x]){
-					player = x;
-					break;
-				}
-			}
-
-			console.log(invite, player, id);
-
-			if(player){
-				result(setInterval(this.aa, fps));
-			}
-		},
-
-		aa: function(){
-			console.log("aaaa");
-			//player_x[player], player_y[player], portal_x[player], portal_y[player], portal_vertical[player], this.set_xy
-		},
-
-		cancel_interval: function (id){
-			
-		}*/
+        }
     });
 
     d.pipe(stream).pipe(d);
