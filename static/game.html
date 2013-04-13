@@ -206,6 +206,8 @@
                                 if (!direction.x && !direction.y) {
                                     this.stop().animate("still", 0, -1);
                                 }
+
+								//console.log(direction);
                             })
                             // A rudimentary way to prevent the user from passing solid areas
                             .bind('Moved', function (from) {
@@ -226,7 +228,13 @@
                                 if (!this.hit('solid')) {
                                     this._potentiallyInWall = false;
                                 }
-                            }).bind('Change', function () {
+                            }).bind('Change', function (from) {	
+								//if(typeof from !== "undefined"){
+								//	if(from._x != player1._x || from._y != player1._y){
+								//		console.log(from._x, from._y);
+								//	}
+								//}		
+				
                                 if (this._justTraversed) {
                                     this._potentiallyInWall = true;
                                 }
@@ -614,7 +622,7 @@ console.log("Here HORIZONTAL");
                         document.getElementById('chat').innerHTML += users['user'] + ":" + document.getElementById('mes').value.trim() + "\n";
                         document.getElementById('chat').scrollTop = 999999;
 
-                        send_message(users['user'], document.getElementById('mes').value.trim());
+                        remote.send_message(users['user'], document.getElementById('mes').value.trim());
 
                         document.getElementById('mes').value = "";
                     }
