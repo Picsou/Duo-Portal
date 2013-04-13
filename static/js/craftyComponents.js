@@ -213,7 +213,8 @@ function declareComponents(){
 		init: function () {
 		    this.requires("Collision")
 		        .onHit("Exit", function () {
-		        Crafty.scene("LevelTwo");
+				level = level + 1;
+		        Crafty.scene("Level" + level);
 		    });
 		}
 	});

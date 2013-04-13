@@ -43,6 +43,8 @@
 			var portal2_last;
 			var portalDirectionLast;
 
+			var level = 1;
+
 			var width = 1245;
 			var height = 600;
 
@@ -55,7 +57,7 @@
 				Crafty.scene("loading", function () {
 				    // Callback method
 				    Crafty.load(["./images/background.png"], function () {
-				        Crafty.scene("LevelOne");
+				        Crafty.scene("Level" + level);
 				    });
 
 				    Crafty.background("#070");
@@ -73,7 +75,7 @@
 
 				declareComponents();
 
-				Crafty.scene("LevelOne", function () {
+				Crafty.scene("Level1", function () {
 				    Crafty.load(["./images/background.png"], function () {
 				        // You can add level two here
 				    });
@@ -88,8 +90,36 @@
 				    //buildThickWall(5, 20, 5, "inactive_wall");
 					//buildThickWall(20, 15, 2, "active_wall");
 					//buildThickWall(30, 15, 5, "inactive_wall");
+					//buildThickWall(45, 15, 1, "inactive_wall");
+				});
+
+				Crafty.scene("Level2", function () {
+					initEntities();
+
+					buildWall(0, 0, 20, "vertical", "active_wall");
+					buildWall(0, 0, 52, "horizontal", "active_wall");
+					buildWall(width - 24, 0, 20, "vertical", "active_wall");
+					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
+
+				    //buildThickWall(5, 20, 5, "inactive_wall");
+					//buildThickWall(20, 15, 2, "active_wall");
+					//buildThickWall(30, 15, 5, "inactive_wall");
+					//buildThickWall(45, 15, 1, "inactive_wall");
+				});
+
+				Crafty.scene("Level3", function () {
+					initEntities();
+
+					buildWall(0, 0, 20, "vertical", "active_wall");
+					buildWall(0, 0, 52, "horizontal", "active_wall");
+					buildWall(width - 24, 0, 20, "vertical", "active_wall");
+					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
+
+				    buildThickWall(5, 20, 5, "inactive_wall");
+					buildThickWall(20, 15, 2, "active_wall");
+					buildThickWall(30, 15, 5, "inactive_wall");
 					buildThickWall(45, 15, 1, "inactive_wall");
-				}); // Closing levelOne scene
+				});
 
 				Crafty.scene("loading");
 
