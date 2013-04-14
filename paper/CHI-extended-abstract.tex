@@ -99,7 +99,9 @@ This manual user can also be found on the login page so that they know what comm
 The implementation of this paper's work can be divided into three main categories: homepage, network and game mechanics. In this section they are described in details.
 
 \subsection{Homepage}
-When accessing the server where the game is hosted, the game's first page is a registration page. To be registered a player just need to give a non-repeated nickname. After entering a nickname the player is welcomed by a message and faces a list with all the players connected to the server but not playing yet. This can be seen in figure \ref{fig:index}.
+When accessing the server where the game is hosted, the first page is a registration page. To be registered a player just need to give a non-repeated nickname. After entering a nickname the player is welcomed by a message and faces a list with all the players connected to the server but not playing yet. This can be seen in figure \ref{fig:index}.
+
+
 
 \subsection{Network implementation}
 As this work is a multi-player cooperative casual game it is fundamental to it's working the implementation of a network layer to ensure that one player's action is send to the other player's screen in real time. To achieve this requirement we used websockets \cite{websockets}, a new technology embedded in HTML5 standard. To facilitate the implementation of the network layer we used node.js \cite{nodejs}, a fast and secure javascript platform built using google chrome's javascript runtime API.
