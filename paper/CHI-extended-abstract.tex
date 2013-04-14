@@ -60,9 +60,19 @@ In this project we are going to implement a 2D casual version of Portal game cre
 \hspace*{-0.4\columnwidth}% displace figure
 \parbox{1.4\columnwidth}{
   \centering
-  \includegraphics[width=1.4\columnwidth]{sample.jpg}
-  \caption{Insert a caption below each figure. Images can "float" around body text, like this example.}
-  \label{fig:sample}
+  \includegraphics[width=1.4\columnwidth]{index.png}
+  \caption{A screenshot of the game}
+  \label{fig:index}
+}
+\end{figure}
+
+\begin{figure}
+\hspace*{-0.4\columnwidth}% displace figure
+\parbox{1.4\columnwidth}{
+  \centering
+  \includegraphics[width=1.4\columnwidth]{game.png}
+  \caption{A screenshot of the game}
+  \label{fig:game}
 }
 \end{figure}
 
@@ -86,8 +96,17 @@ This manual user can also be found on the login page so that they know what comm
 \end{itemize}
 
 \section{Implementation Details}
-\subsection{Network implementation}
+The implementation of this paper's work can be divided into three main categories: homepage, network and game mechanics. In this section they are described in details.
 
+\subsection{Homepage}
+When accessing the server where the game is hosted, the game's first page is a registration page. To be registered a player just need to give a non-repeated nickname. After entering a nickname the player is welcomed by a message and faces a list with all the players connected to the server but not playing yet. This can be seen in figure \ref{fig:index}.
+
+\subsection{Network implementation}
+As this work is a multi-player cooperative casual game it is fundamental to it's working the implementation of a network layer to ensure that one player's action is send to the other player's screen in real time. To achieve this requirement we used websockets \cite{websockets}, a new technology embedded in HTML5 standard. To facilitate the implementation of the network layer we used node.js \cite{nodejs}, a fast and secure javascript platform built using google chrome's javascript runtime API.
+
+Nodejs creates a non-blocking environment for asynchronous requests through the network, this is fundamental for any application that requires a significant number of packets being send through the network per second. In this game the user has the ability to change how many requests per second are performed as shown in the FPS field in figure \ref{fig:game}. After a lot of tests we discovered that 20 requests per second is enough to provide a realistic movement effect of the game and at the same time do not overload the network.
+
+In addition to the ability of change how many requests per second are performed, players can also chat with each other through a simple message field bellow the game section. The chat was implemented in a manner that when players are moving and opening portals they don't need to click in the chat field to communicate, the focus is always in the chat field. In other words, when players want to chat they just need to type the message and press enter. A simple chat between players is demonstrated in figure \ref{fig:game}.
 
 \subsection{Game mechanics implementation}
 The Crafty game engine relies on two types of objects: the components and the entities. The components allow to add behaviors to the entities (eg, the DOM component allows the player entity to be displayed on the map).
