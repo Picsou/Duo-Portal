@@ -85,18 +85,32 @@
 					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
 					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
 					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
-
-					buildThickWall(20, 8, 17, 1, "inactive_wall", "vertical");
-					buildThickWall(26, 8, 1, 10, "inactive_wall", "horizontal");
 				});
 
 				Crafty.scene("Level2", function () {
 					initEntities();
 
-					buildThickWall(0, 0, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 0, 1, 28, "inactive_wall", "horizontal");
+					buildThickWall(29, 0, 1, 23, "active_wall", "horizontal");
 					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
 					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
 					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
+
+					/* Stairs */
+					buildThickWall(4, 22, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(6, 20, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(8, 18, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(10, 16, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(12, 14, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(14, 12, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(16, 10, 1, 2, "inactive_wall", "horizontal");
+					buildThickWall(18, 8, 1, 2, "inactive_wall", "horizontal");
+
+					buildThickWall(20, 8, 17, 1, "inactive_wall", "vertical");
+					buildThickWall(28, 0, 20, 1, "inactive_wall", "vertical");
+					buildThickWall(36, 8, 17, 1, "inactive_wall", "vertical");
+					buildThickWall(44, 0, 12, 1, "inactive_wall", "vertical");
+					buildThickWall(44, 17, 8, 1, "inactive_wall", "vertical");
 				});
 
 				Crafty.scene("Level3", function () {
