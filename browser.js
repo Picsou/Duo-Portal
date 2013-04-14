@@ -12,9 +12,5 @@ domready(function(){
 	});
 
     d.pipe(stream).pipe(d);
-
-	//if(typeof window.ready == 'function') {
-		//ready();
-	//}
 });
 

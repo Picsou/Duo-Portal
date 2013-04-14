@@ -106,10 +106,7 @@ function updateMessageSystem(){
 		    });
 
 			remote.get_level(users['user'], function (arg){
-				console.log(level, arg);
-
 				if(level < arg){
-					console.log("aaaa", level, arg);
 					level = arg;
 					Crafty.scene("Level" + level);
 				}
