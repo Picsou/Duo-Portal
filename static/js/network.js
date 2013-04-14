@@ -49,14 +49,25 @@ function trigger() {
 
     intervalId = setInterval(function () {
         if (player2 != null && player1 != null && window.remote) {
-			remote.set_xy(users['user'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), portal._value, animation, function () {
-				remote.get_xy(users['invite'], function(x2, y2, animation1){ 
-					player2.animateOther(animation1);					
+			remote.set_xy(users['user'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), portal._value, animation, justTraversed, function () {
+				remote.get_xy(users['invite'], function(x2, y2, animation1, justTraversed1){
+					if(animation_last != animation1){
+						player2.animateOther(animation1);
+						animation_last = animation1;
+					}					
 	
-					player2.tween({
-	                    x: x2,
-	                    y: y2
-	                }, 6);
+					if(justTraversed1){
+						player2.attr({
+			                x: x2,
+			                y: y2
+			            });
+					}
+					else{
+						player2.tween({
+			                x: x2,
+			                y: y2
+			            }, 6);
+					}
 				});
 
 				remote.get_portal(users['invite'], function(x2, y2, vertical2, value){ 
@@ -80,6 +91,8 @@ function trigger() {
 					}
 				});
 			});
+
+			justTraversed = false;
         }
     }, 1000 / fps);
 }
