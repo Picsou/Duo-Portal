@@ -76,49 +76,38 @@
 				declareComponents();
 
 				Crafty.scene("Level1", function () {
-				    Crafty.load(["./images/background.png"], function () {
-				        // You can add level two here
-				    });
-
 					initEntities();
 
-					buildWall(0, 0, 20, "vertical", "active_wall");
-					buildWall(0, 0, 52, "horizontal", "active_wall");
-					buildWall(width - 24, 0, 20, "vertical", "active_wall");
-					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
+					buildThickWall(0, 0, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
+					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
 
-				    //buildThickWall(5, 20, 5, "inactive_wall");
-					//buildThickWall(20, 15, 2, "active_wall");
-					//buildThickWall(30, 15, 5, "inactive_wall");
-					//buildThickWall(45, 15, 1, "inactive_wall");
+					buildThickWall(20, 8, 17, 1, "inactive_wall", "vertical");
+					buildThickWall(26, 8, 1, 10, "inactive_wall", "horizontal");
 				});
 
 				Crafty.scene("Level2", function () {
 					initEntities();
 
-					buildWall(0, 0, 20, "vertical", "active_wall");
-					buildWall(0, 0, 52, "horizontal", "active_wall");
-					buildWall(width - 24, 0, 20, "vertical", "active_wall");
-					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
-
-				    //buildThickWall(5, 20, 5, "inactive_wall");
-					//buildThickWall(20, 15, 2, "active_wall");
-					//buildThickWall(30, 15, 5, "inactive_wall");
-					//buildThickWall(45, 15, 1, "inactive_wall");
+					buildThickWall(0, 0, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
+					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
 				});
 
 				Crafty.scene("Level3", function () {
 					initEntities();
 
-					buildWall(0, 0, 20, "vertical", "active_wall");
-					buildWall(0, 0, 52, "horizontal", "active_wall");
-					buildWall(width - 24, 0, 20, "vertical", "active_wall");
-					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
+					buildThickWall(0, 0, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
+					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
+					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
 
-				    buildThickWall(5, 20, 5, "inactive_wall");
-					buildThickWall(20, 15, 2, "active_wall");
-					buildThickWall(30, 15, 5, "inactive_wall");
-					buildThickWall(45, 15, 1, "inactive_wall");
+				    buildThickWall(5, 0, 20, 5, "inactive_wall", "vertical");
+					buildThickWall(20, 0, 15, 2, "active_wall", "vertical");
+					buildThickWall(30, 0, 15, 5, "inactive_wall", "vertical");
+					buildThickWall(45, 0, 15, 1, "inactive_wall", "vertical");
 				});
 
 				Crafty.scene("loading");

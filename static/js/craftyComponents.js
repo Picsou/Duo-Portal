@@ -370,8 +370,18 @@ function buildWall(xWall, yWall, blocks, direction, wallType) {
 	}
 }
 
-function buildThickWall(x, height1, width1, wallType) {
-	for(i = 0; i < width1; i++){
-		buildWall((x * 24) + (i * 24), height - (height1 * 24), height1, "vertical", wallType);
+function buildThickWall(x, y, height1, width1, wallType, direction) {
+	if (direction == "vertical") {
+		for(i = 0; i < width1; i++){
+			for(j = 0; j < height1; j++){
+				buildWall((x * 24) + (i * 24), (y * 24) + (j * 24), width1, "vertical", wallType);
+			} 
+		}
+	} else {
+		for(i = 0; i < width1; i++){
+			for(j = 0; j < height1; j++){
+				buildWall((x * 24) + (i * 24), (y * 24) + (j * 24), height1, "horizontal", wallType);
+			}
+		}
 	}
 }
