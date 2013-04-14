@@ -108,8 +108,8 @@ function declareComponents(){
 		                    	});
 							} else {
 								this.attr({
-		                        	x: destinationPortal.x,
-		                       		y: destinationPortal.y + (destinationPortal.h + 10)
+		                        	x: destinationPortal.x + 20,
+		                       		y: destinationPortal.y + (destinationPortal.h + 60)
 		                    	});
 							}
 						} else if (destinationPortal._direction == "vertical") {

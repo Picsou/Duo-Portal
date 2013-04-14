@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.31)  12 APR 2013 18:08
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.31)  14 APR 2013 15:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -327,7 +327,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--46
 
  []
 
-<sample.jpg, id=12, 361.35pt x 274.02374pt>
+<sample.jpg, id=28, 361.35pt x 274.02374pt>
 File: sample.jpg Graphic file (type jpg)
  <use sample.jpg>
 Package pdftex.def Info: sample.jpg used on input line 70.
@@ -372,15 +372,15 @@ Package rerunfilecheck Warning: File `CHI-extended-abstract.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `CHI-extended-abstract.out':
-(rerunfilecheck)             Before: 45B7D2F24A4F4A3F16B4C9DAE7865760;94
+(rerunfilecheck)             Before: 64879C221C6B40ECD7EA1A47EA9DA0C3;321
 (rerunfilecheck)             After:  5AD8EFE6FB18D621ECD2397B0671C105;321.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 85.
  ) 
 Here is how much of TeX's memory you used:
- 6433 strings out of 493485
- 98197 string characters out of 3143525
+ 6438 strings out of 493485
+ 98258 string characters out of 3143525
  172950 words of memory out of 3000000
- 9683 multiletter control sequences out of 15000+200000
+ 9688 multiletter control sequences out of 15000+200000
  8209 words of font info for 24 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  43i,6n,43p,288b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -390,10 +390,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/helvetic/uhvb8a.pfb>
-Output written on CHI-extended-abstract.pdf (2 pages, 115002 bytes).
+Output written on CHI-extended-abstract.pdf (2 pages, 115196 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  19 named destinations out of 1000 (max. 500000)
- 22 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 54 words of extra memory for PDF output out of 10000 (max. 10000000)
 

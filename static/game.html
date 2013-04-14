@@ -92,7 +92,7 @@
 					buildThickWall(6, 24, 1, 41, "inactive_wall", "horizontal");
 					buildThickWall(47, 24, 1, 5, "active_wall", "horizontal");
 
-					buildThickWall(0, 3, 16, 1, "active_wall", "vertical");
+					buildThickWall(0, 3, 14, 1, "active_wall", "vertical");
 					buildThickWall(0, 0, 3, 1, "inactive_wall", "vertical");
 					buildThickWall(51, 3, 16, 1, "active_wall", "vertical");
 					buildThickWall(51, 0, 3, 1, "inactive_wall", "vertical");
@@ -116,7 +116,7 @@
 					buildThickWall(0, 24, 1, 24, "inactive_wall", "horizontal");
 					buildThickWall(24, 24, 1, 10, "active_wall", "horizontal");
 					buildThickWall(0, 1, 2, 1, "inactive_wall", "vertical");
-					buildThickWall(0, 3, 17, 1, "active_wall", "vertical");
+					buildThickWall(0, 3, 14, 1, "active_wall", "vertical");
 					buildThickWall(51, 0, 3, 1, "inactive_wall", "vertical");
 					buildThickWall(51, 3, 17, 1, "active_wall", "vertical");
 
@@ -156,15 +156,15 @@
 					buildThickWall(44, 24, 1, 3, "inactive_wall", "horizontal");
 					buildThickWall(47, 24, 1, 5, "active_wall", "horizontal");
 
-					buildThickWall(0, 3, 16, 1, "active_wall", "vertical");
+					buildThickWall(0, 3, 14, 1, "active_wall", "vertical");
 					buildThickWall(0, 0, 3, 1, "inactive_wall", "vertical");
 					buildThickWall(51, 3, 16, 1, "active_wall", "vertical");
 					buildThickWall(51, 0, 3, 1, "inactive_wall", "vertical");
 
-				    buildThickWall(6, 6, 16, 4, "inactive_wall", "vertical");
+				    buildThickWall(6, 8, 13, 4, "inactive_wall", "vertical");
 					buildThickWall(20, 8, 15, 2, "active_wall", "vertical");
 					buildThickWall(30, 7, 15, 5, "inactive_wall", "vertical");
-					buildThickWall(45, 5, 20, 1, "inactive_wall", "vertical");
+					buildThickWall(45, 7, 17, 1, "inactive_wall", "vertical");
 				});
 
 				/* The 3 levels are all finished */
@@ -194,7 +194,7 @@
             <textarea id="chat" readonly></textarea>
         </div>
         <div style="px;text-align:center;line-height:80px;">
-            <input type="text" id="mes" class="textarea" onKeyDown="message()">
+            <input type="text" id="mes" class="textarea" onKeyDown="message(event)">
         </div>
         <div style="px;text-align:center;line-height:80px;">fps (<span id="val"></span>):
             <input type="range" id="fps" onChange="update_fps()" min="10" max="60" style="width:300px;" />
