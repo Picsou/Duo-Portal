@@ -1,21 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.31)  12 APR 2013 18:08
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.10.23)  14 APR 2013 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **CHI-extended-abstract.tex
 (./CHI-extended-abstract.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, et
-hiopic, farsi, arabic, pinyin, croatian, bulgarian, ukrainian, russian, slovak,
- czech, danish, dutch, usenglishmax, ukenglish, finnish, french, basque, ngerma
-n, german, swissgerman, ngerman-x-2012-05-30, german-x-2012-05-30, monogreek, g
-reek, ibycus, ancientgreek, hungarian, bengali, tamil, hindi, telugu, gujarati,
- sanskrit, malayalam, kannada, assamese, marathi, oriya, panjabi, italian, lati
-n, latvian, lithuanian, mongolian, mongolianlmc, nynorsk, bokmal, indonesian, e
-speranto, coptic, welsh, irish, interlingua, serbian, serbianc, slovenian, friu
-lan, romansh, estonian, romanian, armenian, uppersorbian, turkish, afrikaans, i
-celandic, kurmanji, polish, portuguese, galician, catalan, spanish, swedish, th
-ai, loaded.
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
+aded.
 (./chi-ext.cls
 Document Class: chi-ext 2010/12/01, Luis A. Leiva
 CHI Extended Abstracts template, original design by Manas Tungare, modified and
@@ -310,8 +301,87 @@ LaTeX Font Info:    Try loading font information for OT1+phv on input line 46.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
+! Font OT1/phv/bc/n/10=phvb7tn at 10.0pt not loadable: Metric (TFM) file not fo
+und.
+<to be read again> 
+                   relax 
+l.46 \maketitle
+               
+I wasn't able to read the size data for this font,
+so I will ignore the font specification.
+[Wizards can fix TFM files using TFtoPL/PLtoTF.]
+You might try inserting a different font spec;
+e.g., type `I\font<same font id>=<substitute font name>'.
+
+! Font OT1/phv/bc/n/24.88=phvb7tn at 24.88pt not loadable: Metric (TFM) file no
+t found.
+<to be read again> 
+                   relax 
+l.46 \maketitle
+               
+I wasn't able to read the size data for this font,
+so I will ignore the font specification.
+[Wizards can fix TFM files using TFtoPL/PLtoTF.]
+You might try inserting a different font spec;
+e.g., type `I\font<same font id>=<substitute font name>'.
+
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <24.88> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 46.
+! Font OT1/phv/bx/n/24.88=phvb7t at 24.88pt not loadable: Metric (TFM) file not
+ found.
+<to be read again> 
+                   relax 
+l.46 \maketitle
+               
+I wasn't able to read the size data for this font,
+so I will ignore the font specification.
+[Wizards can fix TFM files using TFtoPL/PLtoTF.]
+You might try inserting a different font spec;
+e.g., type `I\font<same font id>=<substitute font name>'.
+
+! Font \OT1/phv/b/n/24.88=nullfont not loadable: Metric (TFM) file not found.
+<to be read again> 
+                   \relax 
+l.46 \maketitle
+               
+I wasn't able to read the size data for this font,
+so I will ignore the font specification.
+[Wizards can fix TFM files using TFtoPL/PLtoTF.]
+You might try inserting a different font spec;
+e.g., type `I\font<same font id>=<substitute font name>'.
+
+Missing character: There is no D in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no P in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no H in font nullfont!
+Missing character: There is no T in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no L in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no v in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no e in font nullfont!
 
 Overfull \hbox (12.7316pt too wide) in paragraph at lines 46--46
 [][] 
@@ -322,49 +392,62 @@ Overfull \hbox (280.04623pt too wide) in paragraph at lines 46--46
 [][][]  
  []
 
+Missing character: There is no Ã in font cmssbx10!
+Missing character: There is no © in font cmssbx10!
 
 Underfull \hbox (badness 10000) in paragraph at lines 46--46
 
  []
 
-<sample.jpg, id=12, 361.35pt x 274.02374pt>
+Missing character: There is no â in font cmss10!
+Missing character: There is no € in font cmss10!
+Missing character: There is no ™ in font cmss10!
+Missing character: There is no â in font cmss10!
+Missing character: There is no € in font cmss10!
+Missing character: There is no ™ in font cmss10!
+<sample.jpg, id=28, 361.35pt x 274.02374pt>
 File: sample.jpg Graphic file (type jpg)
  <use sample.jpg>
-Package pdftex.def Info: sample.jpg used on input line 70.
+Package pdftex.def Info: sample.jpg used on input line 66.
 (pdftex.def)             Requested size: 341.47424pt x 258.9538pt.
 
 
 Package caption Warning: The option `hypcap=true' will be ignored for this
-(caption)                particular \caption on input line 70.
+(caption)                particular \caption on input line 66.
 See the caption package documentation for explanation.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 70.
+(Font)              <7> on input line 66.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 70.
+(Font)              <5> on input line 66.
 [1
 
 
-{/home/frederico/.texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-(./CHI-extended-abstract.bbl
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 74.
+
+LaTeX Font Info:    No file OMScmss.fd. on input line 74.
+
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbullet' on input line 74.
+
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 5.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 80.
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 85.
+[2 <./sample.jpg>] (./CHI-extended-abstract.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 103.
 
-Overfull \vbox (89.50468pt too high) has occurred while \output is active []
-
-
-Overfull \vbox (89.50468pt too high) has occurred while \output is active []
+Overfull \vbox (1.27223pt too high) has occurred while \output is active []
 
 
-[2 <./sample.jpg>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 85.
+[3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 103.
  (./CHI-extended-abstract.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 85.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 85.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 103.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 103.
 
 
 Package rerunfilecheck Warning: File `CHI-extended-abstract.out' has changed.
@@ -372,28 +455,33 @@ Package rerunfilecheck Warning: File `CHI-extended-abstract.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `CHI-extended-abstract.out':
-(rerunfilecheck)             Before: 45B7D2F24A4F4A3F16B4C9DAE7865760;94
-(rerunfilecheck)             After:  5AD8EFE6FB18D621ECD2397B0671C105;321.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 85.
+(rerunfilecheck)             Before: 64879C221C6B40ECD7EA1A47EA9DA0C3;321
+(rerunfilecheck)             After:  D0F809A4FBD9EC6CD0F9F521611720EF;526.
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 103.
  ) 
 Here is how much of TeX's memory you used:
- 6433 strings out of 493485
- 98197 string characters out of 3143525
- 172950 words of memory out of 3000000
- 9683 multiletter control sequences out of 15000+200000
- 8209 words of font info for 24 fonts, out of 3000000 for 9000
- 957 hyphenation exceptions out of 8191
- 43i,6n,43p,288b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/urw/helvetic/uhvb8a.pfb>
-Output written on CHI-extended-abstract.pdf (2 pages, 115002 bytes).
+ 6456 strings out of 495059
+ 98490 string characters out of 3182029
+ 176644 words of memory out of 3000000
+ 9573 multiletter control sequences out of 15000+200000
+ 5502 words of font info for 20 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 43i,6n,43p,575b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{section*.14} has been referenced but does not exi
+st, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on CHI-extended-abstract.pdf (3 pages, 118846 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
- 19 named destinations out of 1000 (max. 500000)
- 22 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 89 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
+ 27 named destinations out of 1000 (max. 500000)
+ 54 words of extra memory for PDF output out of 10000 (max. 10000000)
 
