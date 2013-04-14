@@ -107,11 +107,16 @@
 				Crafty.scene("Level2", function () {
 					initEntities();
 
-					buildThickWall(0, 0, 1, 28, "inactive_wall", "horizontal");
-					buildThickWall(29, 0, 1, 23, "active_wall", "horizontal");
-					buildThickWall(0, 24, 1, 52, "active_wall", "horizontal");
-					buildThickWall(0, 1, 19, 1, "active_wall", "vertical");
-					buildThickWall(51, 1, 19, 1, "active_wall", "vertical");
+					buildThickWall(0, 0, 1, 31, "inactive_wall", "horizontal");
+					buildThickWall(31, 0, 1, 12, "active_wall", "horizontal");
+					buildThickWall(42, 0, 1, 5, "inactive_wall", "horizontal");
+					buildThickWall(47, 0, 1, 4, "active_wall", "horizontal");
+					buildThickWall(0, 24, 1, 24, "inactive_wall", "horizontal");
+					buildThickWall(24, 24, 1, 10, "active_wall", "horizontal");
+					buildThickWall(0, 1, 2, 1, "inactive_wall", "vertical");
+					buildThickWall(0, 3, 17, 1, "active_wall", "vertical");
+					buildThickWall(51, 0, 3, 1, "inactive_wall", "vertical");
+					buildThickWall(51, 3, 17, 1, "active_wall", "vertical");
 
 					/* Stairs */
 					buildThickWall(4, 22, 1, 2, "inactive_wall", "horizontal");
@@ -123,11 +128,16 @@
 					buildThickWall(16, 10, 1, 2, "inactive_wall", "horizontal");
 					buildThickWall(18, 8, 1, 2, "inactive_wall", "horizontal");
 
-					buildThickWall(20, 8, 17, 1, "inactive_wall", "vertical");
-					buildThickWall(28, 0, 20, 1, "inactive_wall", "vertical");
+					buildThickWall(21, 8, 17, 1, "inactive_wall", "vertical");
+					buildThickWall(28, 0, 18, 1, "inactive_wall", "vertical");
 					buildThickWall(36, 8, 17, 1, "inactive_wall", "vertical");
 					buildThickWall(44, 0, 12, 1, "inactive_wall", "vertical");
 					buildThickWall(44, 17, 8, 1, "inactive_wall", "vertical");
+
+					buildThickWall(34, 24, 1, 5, "inactive_wall", "horizontal");
+					buildThickWall(39, 24, 1, 3, "active_wall", "horizontal");
+					buildThickWall(42, 24, 1, 5, "inactive_wall", "horizontal");
+					buildThickWall(47, 24, 1, 5, "active_wall", "horizontal");
 				});
 
 				Crafty.scene("Level3", function () {
