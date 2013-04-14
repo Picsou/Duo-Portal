@@ -3,3 +3,12 @@
 .settings
 node_modules/
 static/js/static.js
+paper/CHI-extended-abstract.aux
+paper/CHI-extended-abstract.bbl		
+paper/CHI-extended-abstract.blg
+paper/CHI-extended-abstract.dvi
+paper/CHI-extended-abstract.log
+paper/CHI-extended-abstract.out
+paper/CHI-extended-abstract.pdf
+paper/CHI-extended-abstract.synctex.gz
+paper/missfont.log

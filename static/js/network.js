@@ -137,12 +137,12 @@ function update_fps() {
     trigger();
 }
 
-function message() {
+function message(event) {
     if (event.keyCode == 37 || event.keyCode == 39) {
         event.preventDefault();
         return false;
     }
-
+	
     if (event.keyCode == 13) {
         if (document.getElementById('mes').value.trim()) {
             document.getElementById('chat').innerHTML += users['user'] + ":" + document.getElementById('mes').value.trim() + "\n";
