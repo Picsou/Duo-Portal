@@ -163,7 +163,21 @@
 					buildThickWall(20, 8, 15, 2, "active_wall", "vertical");
 					buildThickWall(30, 7, 15, 5, "inactive_wall", "vertical");
 					buildThickWall(45, 5, 20, 1, "inactive_wall", "vertical");
+				});
 
+				/* The 3 levels are all finished */
+				Crafty.scene("Level4", function () {
+					Crafty.background("#F70");
+				    Crafty.e("2D, DOM, Text").attr({
+				        w: 100,
+				        h: 40,
+				        x: 550,
+				        y: 300
+				    })
+				        .text("You Won!")
+				        .css({
+				        "text-align": "center"
+				    });
 				});
 
 				Crafty.scene("loading");
