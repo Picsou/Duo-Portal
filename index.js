@@ -18,6 +18,8 @@ var portal_y = new Array();
 
 var portal_vertical = new Array();
 var value = new Array();
+
+var level = new Array();
  
 var server = http.createServer(ecstatic);
 server.listen(80);
@@ -133,6 +135,9 @@ var sock = shoe(function (stream) {
 			playing[playing.length] = user;
 			playing[playing.length] = invite;
 
+ 			level[playing.length - 2] = 1;
+			level[playing.length - 1] = 1;
+
 			cb();
         },
 
@@ -205,7 +210,27 @@ var sock = shoe(function (stream) {
 					return;
 				}
 			}
-        }
+        },
+
+		set_level: function (id, level1) {
+			for(var x = 0; x < playing.length; x++){
+				if(id == playing[x]){
+					level[x] = level1;
+					
+					return;
+				}
+			}
+        },
+
+		get_level: function (id, cb) {
+			for(var x = 0; x < playing.length; x++){
+				if(id == playing[x]){
+					cb(level[x]);
+					
+					return;
+				}
+			}
+        },
     });
 
     d.pipe(stream).pipe(d);

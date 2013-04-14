@@ -8,12 +8,9 @@ domready(function(){
 
 	d.on('remote', function (remote) {
 		window.remote = remote;
+		ready();
 	});
 
     d.pipe(stream).pipe(d);
-
-	if(typeof window.ready == 'function') {
-		ready();
-	}
 });
 
