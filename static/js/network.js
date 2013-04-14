@@ -104,6 +104,16 @@ function updateMessageSystem(){
 		            document.getElementById('chat').scrollTop = 999999;
 		        }
 		    });
+
+			remote.get_level(users['user'], function (arg){
+				console.log(level, arg);
+
+				if(level < arg){
+					console.log("aaaa", level, arg);
+					level = arg;
+					Crafty.scene("Level" + level);
+				}
+			});
 		}
 	}, 1000);
 }

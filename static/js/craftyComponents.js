@@ -94,12 +94,12 @@ function declareComponents(){
 							if (destinationPortal._value > 0) {
 								this.attr({
 		                      		x: destinationPortal.x - (destinationPortal.w + 30),
-		                       		y: destinationPortal.y
+		                       		y: destinationPortal.y + 15
 		                   		});
 							} else {
 								this.attr({
 		                       		x: destinationPortal.x + (destinationPortal.w + 30),
-		                       		y: destinationPortal.y
+		                       		y: destinationPortal.y + 15
 		                    	});
 							}
 						}
@@ -213,9 +213,13 @@ function declareComponents(){
 		init: function () {
 		    this.requires("Collision")
 		        .onHit("Exit", function () {
-				level = level + 1;
-		        Crafty.scene("Level" + level);
-		    });
+					level = level + 1;
+
+					remote.set_level(users['user'], level);
+					remote.set_level(users['invite'], level);
+			
+				    Crafty.scene("Level" + level);
+				});
 		}
 	});
 

@@ -55,10 +55,13 @@
 				Crafty.init(width, height);
 
 				Crafty.scene("loading", function () {
-				    // Callback method
-				    Crafty.load(["./images/background.png"], function () {
-				        Crafty.scene("Level" + level);
-				    });
+					remote.get_level(users['user'], function (arg){
+						level = arg;
+
+						Crafty.load(["./images/background.png"], function () {
+						    Crafty.scene("Level" + level);
+						});
+					});
 
 				    Crafty.background("#070");
 				    Crafty.e("2D, DOM, Text").attr({
@@ -102,8 +105,8 @@
 					buildWall(0, height - 24, 52, "horizontal", "active_wall");	
 
 				    //buildThickWall(5, 20, 5, "inactive_wall");
-					//buildThickWall(20, 15, 2, "active_wall");
-					//buildThickWall(30, 15, 5, "inactive_wall");
+					buildThickWall(20, 15, 2, "active_wall");
+					buildThickWall(30, 15, 5, "inactive_wall");
 					//buildThickWall(45, 15, 1, "inactive_wall");
 				});
 
