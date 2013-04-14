@@ -20,6 +20,8 @@ var portal_vertical = new Array();
 var value = new Array();
 
 var level = new Array();
+
+var animation = new Array();
  
 var server = http.createServer(ecstatic);
 server.listen(80);
@@ -141,7 +143,7 @@ var sock = shoe(function (stream) {
 			cb();
         },
 
-		set_xy: function (id, x, y, portal_x1, portal_y1, vertical1, value1, cb) {
+		set_xy: function (id, x, y, portal_x1, portal_y1, vertical1, value1, animation1, cb) {
 			for(var i = 0; i < playing.length; i++){
 				if(id == playing[i]){
 					player_x[i] = x;
@@ -152,6 +154,8 @@ var sock = shoe(function (stream) {
 
 					portal_vertical[i] = vertical1;
 					value[i] = value1;
+
+					animation[i] = animation1;
 
 					cb(); 
 
@@ -166,7 +170,7 @@ var sock = shoe(function (stream) {
 			for(var x = 0; x < playing.length; x++){
 				if(id == playing[x]){
 					if(cb){
-						cb(player_x[x], player_y[x]);
+						cb(player_x[x], player_y[x], animation[x]);
 					}					
 	
 					return x;
@@ -230,7 +234,7 @@ var sock = shoe(function (stream) {
 					return;
 				}
 			}
-        },
+        }
     });
 
     d.pipe(stream).pipe(d);

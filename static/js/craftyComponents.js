@@ -2,6 +2,27 @@ function declareComponents(){
 	Crafty.c('Ape', {
 		_potentiallyInWall: false,
 
+		animateOther: function(arg){
+			this.requires("SpriteAnimation, Collision").animate("walk_left", [
+		        [444, 150],
+		        [544, 150],
+		        [494, 150]
+		    ]).animate("walk_right", [
+		        [307, 151],
+		        [208, 150],
+		        [256, 151]
+		    ]).animate("jump_up", [
+		        [53, 227]
+		    ]).animate("still", 256, 151, 256);
+		
+			if(arg != "still"){
+				this.stop().animate(arg, 20, -1);
+			}
+			else{
+				this.stop().animate("still", 0, -1);
+			}
+		},
+
 		Ape: function () {
 		    // Setup animations
 		    this.requires("SpriteAnimation, Collision")
@@ -9,36 +30,36 @@ function declareComponents(){
 		        [444, 150],
 		        [544, 150],
 		        [494, 150]
-		    ])
-		        .animate("walk_right", [
+		    ]).animate("walk_right", [
 		        [307, 151],
 		        [208, 150],
 		        [256, 151]
-		    ])
-		    .animate("jump_up", [
+		    ]).animate("jump_up", [
 		        [53, 227]
-		    ])
-		    .animate("jump_down", [
-		        [102, 227],
-		        [143, 230]
-		    ])
-		        .animate("still", 256, 151, 256)
+		    ]).animate("still", 256, 151, 256)
+
 		    // Change animation when the direction changes
 		    .bind("NewDirection", function (direction) {
 		        if (direction.x < 0) {
-		            if (!this.isPlaying("walk_left"))
+		            if (!this.isPlaying("walk_left")){
+						animation = "walk_left";
 		                this.stop().animate("walk_left", 20, -1);
+					}
 		        }
 		        if (direction.x > 0) {
 		            if (!this.isPlaying("walk_right")) {
+						animation = "walk_right";
 		                this.stop().animate("walk_right", 20, -1);
 		            }
 		        }
 		        if (direction.y) {
-		            if (!this.isPlaying("jump_up"))
+		            if (!this.isPlaying("jump_up")){
+						animation = "jump_up";
 		                this.stop().animate("jump_up", 20, 1);
+					}
 		        }
 		        if (!direction.x && !direction.y) {
+					animation = "still";
 		            this.stop().animate("still", 0, -1);
 		        }
 		    })
@@ -281,7 +302,7 @@ function initEntities(){
     player_color = smaller == users['user'] ? 'blue' : 'red';
     other_player_color = smaller != users['user'] ? 'blue' : 'red';
 
-    player2 = Crafty.e("2D, DOM, Multiway, Tween, still_" + other_player_color)
+    player2 = Crafty.e("2D, DOM, Ape, Multiway, Tween, still_" + other_player_color)
         .attr({
         x: 10,
         y: height - 100,
