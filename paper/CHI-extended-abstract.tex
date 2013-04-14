@@ -90,11 +90,27 @@ This manual user can also be found on the login page so that they know what comm
 
 
 \subsection{Game mechanics implementation}
-
+The Crafty game engine relies on two types of objects: the components and the entities. The components allow to add behaviors to the entities (eg, the DOM component allows the player entity to be displayed on the map).
+\newline
+\newline
+The game is built around a number of components.
+\newline
+First of all, every object is displayed by using the built-in component DOM, and is given a position with the 2D built-in component. All the collision are handled by the Collision component and its "onHit" method (based on the size of the colliding components).
+\newline
+The players' motion is specifically handled through the "Ape" component. The main feature of it is to animate the player when it is walking or jumping with the "SpriteAnimation.animate" method.
+\newline
+The "ParticleCollision" component is used to place a portal on a wall. It uses a particule that will detect collisions on the line formed by the player's arm and the mouse cursor. If a collision happens with an "active" wall (component "active_wall"), the portal will be displayed. Once BOTH portals have been set, the "Teleport" component will take care of transporting the players from one portal to the other. The portals themselves have a vertical or horizontal attribute in order to display them properly on the walls.
+\newline
+To complete a level, a collision between one of the players and the exit door is enough.
+\newline
+Finally, graphics are all based on the Sprite component in Crafty that allows to retrieve images associated to objects.
+\newline
 
 \section{Design Evolution}
 \subsection{During the game coding}
-During the development of the game, we focused on the mechanics rather than the graphics. As neither of us is a game graphist, we switched from the mechanics to the graphics near the end of the game development. This means than we had to move from a seamless idea of the graphics to a much more basic way of handle them. Additionaly, we had no IDE nor framework specifically designed to help us with the graphics. For that reason, we reduced the scope of the graphics handling (eg, the player does not move in a natural manner).
+The mechanics of the game took longer than expected (one member of the team had only a limited knowledge of javascript) because the Crafty engine sometimes lacked of references.\\
+During the development of the game, we focused on the mechanics rather than the graphics. As neither of us is a game graphic artist, we switched from the mechanics to the graphics near the end of the game development. This means than we had to move from a seamless idea of the graphics to a much more basic way of handle them. Additionaly, we had no IDE nor framework specifically designed to help us with the graphics. For that reason, we reduced the scope of the graphics handling (eg, the player does not move in a natural manner).\\
+The network features were implemented in the time that we had planed for. However, interfacing the network features and the game mechanics provided a couple of challenges, coming mainly from the game engine.
 
 \subsection{Designing the levels}
 Once the game was operational, we started to work on the level design. We easily came up with 3 levels, but once they were implemented, finding new interesting designs of our own was pretty difficult. We came to understand that coding a game and actually implementing an interesting user experience are two very distinct areas. That is why we decided to stick with 3 levels as a good start for further work on the game.
