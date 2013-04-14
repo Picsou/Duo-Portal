@@ -91,6 +91,7 @@ function declareComponents(){
 		        if (bluePortal.x <= width && yellowPortal.x <= width) {
 		            if (this._justTraversed == false) {
 		                this._justTraversed = true;
+						justTraversed = true;
 
 						var destinationPortal;
 						if (target[0].obj == bluePortal) {

@@ -22,6 +22,8 @@ var value = new Array();
 var level = new Array();
 
 var animation = new Array();
+
+var justTraversed = new Array();
  
 var server = http.createServer(ecstatic);
 server.listen(80);
@@ -143,7 +145,7 @@ var sock = shoe(function (stream) {
 			cb();
         },
 
-		set_xy: function (id, x, y, portal_x1, portal_y1, vertical1, value1, animation1, cb) {
+		set_xy: function (id, x, y, portal_x1, portal_y1, vertical1, value1, animation1, justTraversed1, cb) {
 			for(var i = 0; i < playing.length; i++){
 				if(id == playing[i]){
 					player_x[i] = x;
@@ -156,6 +158,8 @@ var sock = shoe(function (stream) {
 					value[i] = value1;
 
 					animation[i] = animation1;
+
+					justTraversed[i] = justTraversed1;
 
 					cb(); 
 
@@ -170,7 +174,7 @@ var sock = shoe(function (stream) {
 			for(var x = 0; x < playing.length; x++){
 				if(id == playing[x]){
 					if(cb){
-						cb(player_x[x], player_y[x], animation[x]);
+						cb(player_x[x], player_y[x], animation[x], justTraversed[x]);
 					}					
 	
 					return x;
