@@ -48,9 +48,11 @@ function trigger() {
     }
 
     intervalId = setInterval(function () {
-        if (player1 != null && window.remote) {
-			remote.set_xy(users['user'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), portal._value, function () {
-				remote.get_xy(users['invite'], function(x2, y2){ 
+        if (player2 != null && player1 != null && window.remote) {
+			remote.set_xy(users['user'], player1._x, player1._y, portal._x, portal._y, portal.has('vertical_' + player_color), portal._value, animation, function () {
+				remote.get_xy(users['invite'], function(x2, y2, animation1){ 
+					player2.animateOther(animation1);					
+	
 					player2.tween({
 	                    x: x2,
 	                    y: y2
