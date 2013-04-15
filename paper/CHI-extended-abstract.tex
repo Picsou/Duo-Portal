@@ -1,7 +1,7 @@
 \documentclass{chi-ext}
 \copyrightinfo{ }
 
-\title{Duo-Portal, a HTML5 cooperative game}
+\title{Duo-Portal, a two-player HTML5 cooperative game}
 
 \numberofauthors{2}
 \author{
@@ -19,7 +19,7 @@
 }
 
 % Paper metadata (use plain text, for PDF inclusion and later re-using, if desired)
-\def\plaintitle{Duo-Portal, a HTML5 cooperative game}
+\def\plaintitle{Duo-Portal, a two-player HTML5 cooperative game}
 \def\plainauthor{Frederico Schardong}
 \def\plainkeywords{Cooperative, HTML5, online game, portal}
 \def\plaingeneralterms{Cooperative, HTML5, online game, portal}
@@ -56,26 +56,6 @@ In this paper we describe the implementation of a cooperative online game in HTM
 \section{Introduction}
 In this project we are going to implement a 2D casual version of Portal game created by Valve in a platform style (side view) for two players. The game will require the players to cooperate to reach each level’s goal and consequently proceed to the next level. The only way to reach each level’s goal is having both players cooperating. The game can be played online in a web browser.\\
 
-\begin{figure}
-\hspace*{-0.4\columnwidth}% displace figure
-\parbox{1.4\columnwidth}{
-  \centering
-  \includegraphics[width=1.4\columnwidth]{index.png}
-  \caption{A screenshot of the game}
-  \label{fig:index}
-}
-\end{figure}
-
-\begin{figure}
-\hspace*{-0.4\columnwidth}% displace figure
-\parbox{1.4\columnwidth}{
-  \centering
-  \includegraphics[width=1.4\columnwidth]{game.png}
-  \caption{A screenshot of the game}
-  \label{fig:game}
-}
-\end{figure}
-
 \section{Design principles}
 We decided to rely on Crafty, a HTML5 game engine in order to code the game. The players first need to connect to the server hosting the game. Then, they are shown a list of players that they can play with. After inviting a player, the game is starting.\\
 The players are immersed on the playing platform and have to reach the exit door in order to proceed to the next level. To do so, each of them has a portal and those 2 portals must be combined in order to go further into the level. What stands between the players and the exit door is a set of two kinds of walls. The "white" walls allow players to set their portal on it while the "black" walls do not allow it. This type of wall adds difficulty to the levels by forcing the players to think more carefully where they want to set their portals.\\
@@ -99,14 +79,54 @@ This manual user can also be found on the login page so that they know what comm
 The implementation of this paper's work can be divided into three main categories: homepage, network and game mechanics. In this section they are described in details.
 
 \subsection{Homepage}
-When accessing the server where the game is hosted, the first page is a registration page. To be registered a player just need to give a non-repeated nickname. After entering a nickname the player is welcomed by a message and faces a list with all the players connected to the server but not playing yet. This can be seen in figure \ref{fig:index}.
+When accessing the server where the game is hosted, the first page is a registration page. To be registered a player just need to give a non-repeated nickname. After entering a nickname the player is welcomed by a message and faces a list with all the players connected to the server but not playing yet. This can be seen in figure \ref{fig:index}. 
 
+\begin{figure}
+\hspace*{-0.1\columnwidth}% displace figure
+\parbox{1.4\columnwidth}{
+  \centering
+  \includegraphics[width=1.4\columnwidth]{index.png}
+  \caption{First page, list of players}
+  \label{fig:index}
+}
+\end{figure}
 
+Double-clicking in some player will result in an invitation. The player that sent the invitation will see the inviting message as shown in figure \ref{fig:inviting} and the player being invited an accept or deny the invite as shown in figure \ref{fig:inviting2}.
+
+\begin{figure}
+\hspace*{-0.4\columnwidth}% displace figure
+\parbox{1.4\columnwidth}{
+  \centering
+  \includegraphics[width=1.0\columnwidth]{inviting.png}
+  \caption{Inviting other player}
+  \label{fig:inviting}
+}
+\end{figure}
+
+\begin{figure}
+\hspace*{-0.4\columnwidth}% displace figure
+\parbox{1.4\columnwidth}{
+  \centering
+  \includegraphics[width=1.0\columnwidth]{inviting2.png}
+  \caption{Player can accept or deny invitation for the game}
+  \label{fig:inviting2}
+}
+\end{figure}
 
 \subsection{Network implementation}
 As this work is a multi-player cooperative casual game it is fundamental to it's working the implementation of a network layer to ensure that one player's action is send to the other player's screen in real time. To achieve this requirement we used websockets \cite{websockets}, a new technology embedded in HTML5 standard. To facilitate the implementation of the network layer we used node.js \cite{nodejs}, a fast and secure javascript platform built using google chrome's javascript runtime API.
 
 Nodejs creates a non-blocking environment for asynchronous requests through the network, this is fundamental for any application that requires a significant number of packets being send through the network per second. In this game the user has the ability to change how many requests per second are performed as shown in the FPS field in figure \ref{fig:game}. After a lot of tests we discovered that 20 requests per second is enough to provide a realistic movement effect of the game and at the same time do not overload the network.
+
+\begin{figure}
+\hspace*{-0.4\columnwidth}% displace figure
+\parbox{1.4\columnwidth}{
+  \centering
+  \includegraphics[width=1.4\columnwidth]{game.png}
+  \caption{A screenshot of the game}
+  \label{fig:game}
+}
+\end{figure}
 
 In addition to the ability of change how many requests per second are performed, players can also chat with each other through a simple message field bellow the game section. The chat was implemented in a manner that when players are moving and opening portals they don't need to click in the chat field to communicate, the focus is always in the chat field. In other words, when players want to chat they just need to type the message and press enter. A simple chat between players is demonstrated in figure \ref{fig:game}.
 
@@ -120,7 +140,7 @@ First of all, every object is displayed by using the built-in component DOM, and
 \newline
 The players' motion is specifically handled through the "Ape" component. The main feature of it is to animate the player when it is walking or jumping with the "SpriteAnimation.animate" method.
 \newline
-The "ParticleCollision" component is used to place a portal on a wall. It uses a particule that will detect collisions on the line formed by the player's arm and the mouse cursor. If a collision happens with an "active" wall (component "active_wall"), the portal will be displayed. Once BOTH portals have been set, the "Teleport" component will take care of transporting the players from one portal to the other. The portals themselves have a vertical or horizontal attribute in order to display them properly on the walls.
+The "ParticleCollision" component is used to place a portal on a wall. It uses a particule that will detect collisions on the line formed by the player's arm and the mouse cursor. If a collision happens with an "active" wall (component "active\_wall"), the portal will be displayed. Once BOTH portals have been set, the "Teleport" component will take care of transporting the players from one portal to the other. The portals themselves have a vertical or horizontal attribute in order to display them properly on the walls.
 \newline
 To complete a level, a collision between one of the players and the exit door is enough.
 \newline
